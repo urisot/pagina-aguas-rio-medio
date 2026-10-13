@@ -1,0 +1,50 @@
+---
+import { site, footerLinks } from '../data/site.js';
+const year = new Date().getFullYear();
+---
+
+<footer class="no-print mt-20 border-t border-primary-brand/10 bg-surface-container-low">
+  <div class="container-site grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-4">
+    <div class="space-y-4">
+      <img src="/aguas_logo.png" alt="Aguas de Río Medio" width="299" height="59" class="h-[4.2rem] w-auto" loading="lazy" />
+      <p class="text-sm text-on-surface-variant">
+        Suministro confiable, tratamiento de calidad y gestión sustentable de los servicios de agua potable, alcantarillado y saneamiento.
+      </p>
+      <div class="rounded-xl bg-white p-3 text-xs text-on-surface-variant shadow-card">
+        <p class="font-bold text-on-surface">Operador concesionario</p>
+        <p>{site.legalName}</p>
+        <p>R.F.C. INMO80518GC9</p>
+      </div>
+    </div>
+
+    <section aria-labelledby="f-cobertura">
+      <h2 id="f-cobertura" class="mb-4 font-display text-sm font-bold text-on-surface">Cobertura de servicio</h2>
+      <ul class="space-y-3 text-sm text-on-surface-variant">
+        <li class="flex gap-2"><span class="icon !text-[1.8rem] text-primary-brand" aria-hidden="true">location_on</span>Fracc. Lomas de Río Medio 4</li>
+        <li class="flex gap-2"><span class="icon !text-[1.8rem] text-primary-brand" aria-hidden="true">location_on</span>Fracc. Bosques de Río Medio</li>
+        <li class="flex gap-2"><span class="icon !text-[1.8rem] text-primary-brand" aria-hidden="true">map</span>Veracruz, Ver., México</li>
+      </ul>
+    </section>
+
+    <address class="space-y-2 text-sm not-italic text-on-surface-variant">
+      <h2 class="mb-4 font-display text-sm font-bold text-on-surface">Atención y soporte</h2>
+      <p class="flex gap-2"><span class="icon !text-[1.8rem] text-primary-brand" aria-hidden="true">call</span><a href={site.phoneHref} class="hover:text-primary hover:underline">{site.phone}</a></p>
+      <p class="flex gap-2"><span class="icon !text-[1.8rem] text-primary-brand" aria-hidden="true">mail</span><a href={`mailto:${site.email}`} class="break-all hover:text-primary hover:underline">{site.email}</a></p>
+      <p class="flex gap-2"><span class="icon !text-[1.8rem] text-primary-brand" aria-hidden="true">schedule</span>{site.schedule}</p>
+      <p class="flex gap-2"><span class="icon !text-[1.8rem] text-primary-brand" aria-hidden="true">home_pin</span>{site.address}</p>
+    </address>
+
+    <nav aria-label="Enlaces de interés">
+      <h2 class="mb-4 font-display text-sm font-bold text-on-surface">Navegación rápida</h2>
+      <ul class="space-y-2 text-sm text-on-surface-variant">
+        {footerLinks.map((item) => <li><a href={item.href} class="hover:text-primary hover:underline">{item.label}</a></li>)}
+      </ul>
+    </nav>
+  </div>
+  <div class="border-t border-primary-brand/10">
+    <div class="container-site flex flex-col items-center justify-between gap-2 py-5 text-xs text-on-surface-variant sm:flex-row">
+      <p>© {year} {site.legalName}. Todos los derechos reservados. Operador de {site.name}.</p>
+      <p class="flex gap-4"><a href="/politica-de-privacidad/" class="hover:text-primary hover:underline">Aviso de privacidad</a><a href="/contacto/" class="hover:text-primary hover:underline">Contacto</a></p>
+    </div>
+  </div>
+</footer>

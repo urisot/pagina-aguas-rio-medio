@@ -1,0 +1,19 @@
+---
+// Encabezado de página como en las plantillas: fondo claro, título grande con palabra destacada en azul.
+const { eyebrow, title, highlight, lead, center = false } = Astro.props;
+---
+
+<section class="wave-bg relative overflow-hidden bg-canvas">
+  <div class:list={['container-site relative py-14 lg:py-20', center && 'text-center']}>
+    {eyebrow && (
+      <p class:list={['mb-4 animate-rise', center && 'flex justify-center']}>
+        <span class="inline-flex items-center gap-2 rounded-full border border-primary-brand/10 bg-white px-4 py-1.5 font-display text-xs font-bold text-primary shadow-card">{eyebrow}</span>
+      </p>
+    )}
+    <h1 class:list={['animate-rise font-display text-4xl font-extrabold text-on-surface [animation-delay:80ms] sm:text-5xl', center ? 'mx-auto max-w-4xl' : 'max-w-4xl']}>
+      {title}{highlight && <> <span class="text-primary-brand">{highlight}</span></>}
+    </h1>
+    {lead && <p class:list={['mt-4 animate-rise text-lg text-on-surface-variant [animation-delay:160ms]', center ? 'mx-auto max-w-3xl' : 'max-w-3xl']}>{lead}</p>}
+    <slot />
+  </div>
+</section>

@@ -1,0 +1,27 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+
+const items = (await getCollection('sabias-que')).sort((a, b) => b.data.fecha - a.data.fecha);
+---
+
+<BaseLayout title="¿Sabías que?" description="Consejos para cuidar el agua, detectar fugas y ahorrar en tu recibo, por Aguas de Río Medio.">
+  <PageHero eyebrow="Cultura del agua" title="¿Sabías que…?" lead="Consejos prácticos para cuidar el agua y tu economía familiar." icon="lightbulb" />
+  <section class="container-site py-16">
+    <ul class="grid gap-5 md:grid-cols-2">
+      {
+        items.map((i) => (
+          <li>
+            <a href={`/sabias-que/${i.id}/`} class="card group flex h-full flex-col !bg-gradient-to-br from-[#eaf7e8] to-white">
+              <span class="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-secondary-container text-on-secondary-container"><span class="icon icon-fill !text-[2.8rem]" aria-hidden="true">water_drop</span></span>
+              <h2 class="font-display text-xl font-bold">{i.data.titulo}</h2>
+              <p class="mt-2 flex-grow text-on-surface-variant">{i.data.resumen}</p>
+              <p class="mt-4 text-sm font-semibold text-secondary">{i.data.lectura} · Leer artículo →</p>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

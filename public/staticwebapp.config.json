@@ -1,0 +1,18 @@
+{
+  "routes": [
+    { "route": "/category/noticias", "redirect": "/noticias/", "statusCode": 301 },
+    { "route": "/category/noticias/*", "redirect": "/noticias/", "statusCode": 301 }
+  ],
+  "navigationFallback": {
+    "rewrite": "/404.html",
+    "exclude": ["/_astro/*", "/*.{svg,png,jpg,webp,ico,css,js,xml,txt}"]
+  },
+  "responseOverrides": {
+    "404": { "rewrite": "/404.html" }
+  },
+  "globalHeaders": {
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "X-Frame-Options": "DENY"
+  }
+}

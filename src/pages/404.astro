@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Página no encontrada" noindex>
+  <section class="container-site flex min-h-[50rem] flex-col items-center justify-center gap-5 py-20 text-center">
+    <span class="icon icon-fill animate-float !text-[9.6rem] text-primary-brand/30" aria-hidden="true">water_drop</span>
+    <h1 class="font-display text-5xl font-extrabold">Esta página se nos fue por el drenaje</h1>
+    <p class="max-w-xl text-lg text-on-surface-variant">No encontramos lo que buscas. Revisa la dirección o regresa al inicio.</p>
+    <div class="flex flex-wrap justify-center gap-3">
+      <a href="/" class="btn btn-primary">Ir al inicio</a>
+      <a href="/contacto/" class="btn btn-ghost">Contacto</a>
+    </div>
+  </section>
+</BaseLayout>

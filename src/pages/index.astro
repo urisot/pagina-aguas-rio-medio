@@ -1,0 +1,278 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site, tramites, avisos } from '../data/site.js';
+
+const noticias = (await getCollection('noticias')).sort((a, b) => b.data.fecha - a.data.fecha).slice(0, 2);
+const sabias = (await getCollection('sabias-que')).sort((a, b) => b.data.fecha - a.data.fecha)[0];
+const fmt = (d) => d.toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' });
+
+const tonos = [
+  'bg-[#eaf7e8] text-[#2e7d32]',
+  'bg-surface-container text-primary-brand',
+  'bg-[#fff1ef] text-error',
+  'bg-surface-container text-primary-brand',
+  'bg-[#fff7ed] text-warn',
+  'bg-[#eaf7e8] text-[#2e7d32]',
+];
+
+const canales = [
+  { icon: 'chat', title: 'WhatsApp oficial', text: 'Atención rápida, recepción de fotografías de fugas y seguimiento de aclaraciones.', value: site.phone, href: site.whatsappHref, cta: 'Enviar mensaje', external: true },
+  { icon: 'call', title: 'Línea telefónica', text: 'Atención de usuarios, solicitudes formales y reportes en oficina.', value: site.phone, href: site.phoneHref, cta: 'Llamar ahora' },
+  { icon: 'mail', title: 'Correo electrónico', text: 'Envío de documentación legal, comprobantes de pago y trámites.', value: site.email, href: `mailto:${site.email}`, cta: 'Escribir correo' },
+  { icon: 'schedule', title: 'Horarios de oficina', text: 'Río San Isidro No. 6 esq. Río Medellín, Fracc. Bosques de Río Medio.', value: site.schedule, href: '/contacto/', cta: 'Cómo llegar' },
+];
+---
+
+<BaseLayout title="Agua potable y saneamiento en Lomas de Río Medio 4 y Bosques de Río Medio">
+  <!-- HERO -->
+  <section class="wave-bg relative overflow-hidden bg-canvas pb-16 pt-12 lg:pb-24 lg:pt-16">
+    <div class="pointer-events-none absolute -top-24 right-1/4 h-96 w-96 rounded-full bg-primary-brand/10 blur-3xl" aria-hidden="true"></div>
+    <div class="container-site relative grid items-center gap-10 lg:grid-cols-12 lg:gap-14">
+      <div class="space-y-6 lg:col-span-7">
+        <p class="inline-flex animate-rise items-center gap-2 rounded-full bg-white px-4 py-2 font-display text-xs font-bold text-primary shadow-card">
+          <span class="h-2 w-2 animate-pulse rounded-full bg-secondary-brand"></span>
+          Operador oficial · Lomas de Río Medio 4 y Bosques de Río Medio
+        </p>
+        <h1 class="animate-rise font-display text-4xl font-extrabold leading-[1.1] text-on-surface [animation-delay:80ms] sm:text-5xl lg:text-[5.2rem]">
+          Servicios de agua potable y saneamiento <span class="text-primary-brand">para tu bienestar</span>
+        </h1>
+        <p class="max-w-2xl animate-rise text-lg text-on-surface-variant [animation-delay:160ms]">
+          Gestiona tu cuenta con total transparencia, consulta tu saldo en segundos y mantente informado del estado del suministro en tu comunidad en Veracruz.
+        </p>
+        <div class="flex animate-rise flex-wrap gap-3 pt-2 [animation-delay:240ms]">
+          <a href="/pago-en-linea/" class="btn btn-primary !h-[5rem] !rounded-xl !px-7"><span class="icon !text-[2rem]" aria-hidden="true">search</span> Consultar recibo</a>
+          <a href="/tramites-y-servicios/" class="btn !h-[5rem] !rounded-xl bg-surface-container !px-7 text-primary hover:bg-surface-container-high"><span class="icon !text-[2rem]" aria-hidden="true">grid_view</span> Ver trámites</a>
+        </div>
+        <ul class="grid animate-rise gap-3 border-t border-slate-200/70 pt-5 text-xs font-semibold text-on-surface-variant [animation-delay:320ms] sm:grid-cols-3">
+          <li class="flex items-center gap-2"><span class="icon !text-[2rem] text-secondary-brand" aria-hidden="true">verified_user</span>Consulta segura</li>
+          <li class="flex items-center gap-2"><span class="icon !text-[2rem] text-primary-brand" aria-hidden="true">water</span>Calidad NOM-127-SSA1</li>
+          <li class="flex items-center gap-2"><span class="icon !text-[2rem] text-secondary-brand" aria-hidden="true">support_agent</span>Atención ciudadana directa</li>
+        </ul>
+      </div>
+
+      <div class="lg:col-span-5">
+        <div class="space-y-5 rounded-3xl border border-slate-100 bg-white p-6 shadow-card-hover sm:p-7">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+            <div>
+              <p class="eyebrow !text-on-surface-variant">Estado de la red</p>
+              <p class="font-display text-xl font-extrabold">Operación normal</p>
+            </div>
+            <span class="badge badge-ok"><span class="h-2 w-2 animate-ping rounded-full bg-[#2e7d32]"></span>Activa</span>
+          </div>
+          <dl class="grid grid-cols-3 gap-3 text-center">
+            <div class="rounded-xl bg-surface-container-low p-3"><dt class="text-[1.1rem] font-semibold text-on-surface-variant">Reserva</dt><dd class="font-display text-lg font-extrabold text-primary">1.4 M L</dd></div>
+            <div class="rounded-xl bg-surface-container-low p-3"><dt class="text-[1.1rem] font-semibold text-on-surface-variant">Pozos</dt><dd class="font-display text-lg font-extrabold text-primary">2 × 60 L/s</dd></div>
+            <div class="rounded-xl bg-surface-container-low p-3"><dt class="text-[1.1rem] font-semibold text-on-surface-variant">Red</dt><dd class="font-display text-lg font-extrabold text-primary">27 km</dd></div>
+          </dl>
+          <div class="space-y-3 rounded-2xl bg-gradient-to-r from-primary to-primary-brand p-5 text-white">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="font-display text-lg font-extrabold">Consulta tu saldo</p>
+                <p class="text-sm text-on-primary-container">Sin crear cuenta ni hacer filas.</p>
+              </div>
+              <span class="icon !text-[2.8rem]" aria-hidden="true">credit_card</span>
+            </div>
+            <a href="/pago-en-linea/" class="btn btn-light w-full !h-[4.4rem]">Consultar ahora</a>
+          </div>
+          <p class="flex items-center gap-3 rounded-xl bg-surface-container-low p-3 text-sm text-on-surface-variant">
+            <span class="icon icon-fill text-secondary-brand" aria-hidden="true">eco</span>
+            100% de aguas residuales tratadas bajo la norma NOM-001.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AVISOS -->
+  {
+    avisos.length > 0 && (
+      <section aria-labelledby="avisos-titulo" class="container-site pt-10">
+        <h2 id="avisos-titulo" class="sr-only">Avisos destacados</h2>
+        <ul class="space-y-3">
+          {avisos.map((aviso) => (
+            <li class="flex gap-4 rounded-2xl border border-warn/20 bg-warn-container p-5 text-warn">
+              <span class="icon icon-fill !text-[2.8rem]" aria-hidden="true">{aviso.tipo === 'corte' ? 'water_drop' : 'engineering'}</span>
+              <div>
+                <p class="font-display text-lg font-extrabold">{aviso.titulo}</p>
+                <p class="text-sm text-[#7c2d12]">{aviso.detalle}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  <!-- CONSULTA -->
+  <section id="recibo" aria-labelledby="consulta-titulo" class="bg-surface-container-low py-16">
+    <div class="container-site">
+      <div class="mx-auto max-w-3xl space-y-5 rounded-3xl border border-slate-100 bg-white p-6 shadow-card-hover sm:p-10">
+        <div class="flex flex-wrap items-start justify-between gap-2">
+          <div>
+            <p class="eyebrow">Portal de cobro digital</p>
+            <h2 id="consulta-titulo" class="mt-1 flex items-center gap-2 font-display text-3xl font-extrabold">
+              <span class="icon text-primary-brand !text-[3rem]" aria-hidden="true">receipt_long</span> Consulta tu recibo
+            </h2>
+          </div>
+        </div>
+        <p class="text-on-surface-variant">Ingresa tu número de cuenta o contrato para visualizar tu saldo actual y el detalle de tu recibo.</p>
+        <form action="/pago-en-linea/" method="get" class="flex flex-col gap-3 sm:flex-row">
+          <label for="home-cuenta" class="sr-only">Número de cuenta o contrato</label>
+          <input id="home-cuenta" name="cuenta" type="text" inputmode="numeric" pattern="[0-9]+" required placeholder="Número de cuenta o contrato (ej. 104829)" class="field flex-grow" autocomplete="off" />
+          <button type="submit" class="btn btn-primary">Consultar saldo <span class="icon !text-[1.8rem]" aria-hidden="true">arrow_forward</span></button>
+        </form>
+        <div class="flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-4 text-sm text-on-surface-variant">
+          <p class="flex items-center gap-2"><span class="icon !text-[2rem]" aria-hidden="true">help_outline</span>¿Dónde ubicar tu contrato? Revisa la parte superior derecha de tu recibo.</p>
+          <p class="flex gap-4 font-semibold text-primary-brand"><a href="/contacto/" class="hover:underline">Aclaraciones</a><a href={site.whatsappHref} target="_blank" rel="noopener noreferrer" class="hover:underline">Ayuda por WhatsApp</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRÁMITES -->
+  <section aria-labelledby="tramites-titulo" class="container-site py-20">
+    <div class="mb-10 grid items-end gap-4 md:grid-cols-2">
+      <div class="space-y-2">
+        <p class="eyebrow">Trámites y servicios clave</p>
+        <h2 id="tramites-titulo" class="section-title">Gestiones ágiles al alcance de tu mano</h2>
+      </div>
+      <p class="text-on-surface-variant md:text-right">Realiza tus operaciones desde casa o prepárate antes de acudir a nuestros módulos de atención en Veracruz.</p>
+    </div>
+    <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        tramites.map((t, i) => (
+          <li class="reveal">
+            <a href={t.href} class="card group flex h-full flex-col">
+              <span class={`mb-4 flex h-12 w-12 items-center justify-center rounded-xl ${tonos[i % tonos.length]}`}>
+                <span class="icon" aria-hidden="true">{t.icon}</span>
+              </span>
+              <h3 class="font-display text-lg font-bold">{t.title}</h3>
+              <p class="mt-2 flex-grow text-sm text-on-surface-variant">{t.text}</p>
+              <span class="mt-4 flex items-center gap-1 font-display text-xs font-bold text-primary-brand">
+                {t.cta} <span class="icon !text-[1.6rem] transition-transform group-hover:translate-x-1" aria-hidden="true">arrow_forward</span>
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- SALA DE PRENSA -->
+  <section aria-labelledby="prensa-titulo" class="bg-surface-container-low py-20">
+    <div class="container-site">
+      <div class="mb-10 flex flex-wrap items-end justify-between gap-4">
+        <div class="space-y-2">
+          <p class="eyebrow">Información para tu hogar</p>
+          <h2 id="prensa-titulo" class="section-title">Sala de prensa y cultura del agua</h2>
+        </div>
+        <a href="/noticias/" class="flex items-center gap-1 font-display text-sm font-bold text-primary-brand hover:underline">Contacto de prensa <span class="icon !text-[1.8rem]" aria-hidden="true">arrow_forward</span></a>
+      </div>
+      <div class="grid gap-6 lg:grid-cols-5">
+        {
+          sabias && (
+            <a href={`/sabias-que/${sabias.id}/`} class="card card-hover group overflow-hidden !p-0 lg:col-span-3">
+              <span class="relative flex h-64 items-end bg-gradient-to-br from-primary to-primary-brand p-5">
+                <span class="icon icon-fill pointer-events-none absolute right-6 top-4 !text-[14rem] text-white/10" aria-hidden="true">water_drop</span>
+                <span class="relative rounded-full bg-secondary-brand px-3 py-1 font-display text-xs font-bold text-white">¿Sabías que…?</span>
+              </span>
+              <span class="block space-y-3 p-6">
+                <span class="block font-display text-2xl font-bold leading-snug group-hover:text-primary-brand">{sabias.data.titulo}</span>
+                <span class="block text-on-surface-variant">{sabias.data.resumen}</span>
+                <span class="flex items-center justify-between text-sm">
+                  <span class="flex items-center gap-1 text-on-surface-variant"><span class="icon !text-[1.8rem]" aria-hidden="true">schedule</span>{sabias.data.lectura} · Cuidado del recurso</span>
+                  <span class="font-display font-bold text-primary-brand">Leer artículo completo</span>
+                </span>
+              </span>
+            </a>
+          )
+        }
+        <div class="space-y-5 lg:col-span-2">
+          {
+            noticias.map((n) => (
+              <a href={`/noticias/${n.id}/`} class="card card-hover group block">
+                <p class="mb-2 flex items-center justify-between gap-2">
+                  <span class="badge badge-ok">{n.data.categoria}</span>
+                  <time datetime={n.data.fecha.toISOString()} class="text-xs text-on-surface-variant">{fmt(n.data.fecha)}</time>
+                </p>
+                <h3 class="font-display text-lg font-bold leading-snug group-hover:text-primary-brand">{n.data.titulo}</h3>
+                <p class="mt-2 text-sm text-on-surface-variant">{n.data.resumen}</p>
+                <span class="mt-3 flex items-center gap-1 font-display text-xs font-bold text-primary-brand">Conoce los detalles <span class="icon !text-[1.6rem]" aria-hidden="true">arrow_forward</span></span>
+              </a>
+            ))
+          }
+          <a href={site.whatsappHref} target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 rounded-2xl bg-surface-container p-4 text-sm font-semibold text-primary hover:bg-surface-container-high">
+            <span class="icon icon-fill !text-[2.4rem]" aria-hidden="true">notifications_active</span>
+            ¿Deseas recibir avisos de corte programado? Suscríbete a nuestro canal de WhatsApp.
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APP MÓVIL -->
+  <section aria-labelledby="app-titulo" class="bg-gradient-to-br from-primary to-primary-brand py-20 text-white">
+    <div class="container-site grid items-center gap-12 lg:grid-cols-2">
+      <div class="space-y-5">
+        <p class="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 font-display text-xs font-bold">
+          <span class="icon !text-[1.6rem]" aria-hidden="true">smartphone</span> Aplicación oficial Android
+        </p>
+        <h2 id="app-titulo" class="font-display text-4xl font-extrabold !text-white sm:text-5xl">Descarga ARM Móvil en tu dispositivo</h2>
+        <p class="text-on-primary-container">Lleva el control de tu suministro, consulta tus consumos mensuales, recibe notificaciones de vencimiento y genera reportes al instante con fotografía de evidencia.</p>
+        <ul class="grid gap-3 text-sm sm:grid-cols-2">
+          <li class="flex gap-2"><span class="icon !text-[2rem] text-secondary-container" aria-hidden="true">check</span>Historial gráfico de consumos en m³</li>
+          <li class="flex gap-2"><span class="icon !text-[2rem] text-secondary-container" aria-hidden="true">check</span>Alertas de fecha límite de pago</li>
+          <li class="flex gap-2"><span class="icon !text-[2rem] text-secondary-container" aria-hidden="true">check</span>Reportes geolocalizados con estatus</li>
+          <li class="flex gap-2"><span class="icon !text-[2rem] text-secondary-container" aria-hidden="true">check</span>Consulta de recibos</li>
+        </ul>
+        <div class="flex flex-wrap gap-3 pt-2">
+          <a href={site.whatsappHref} target="_blank" rel="noopener noreferrer" class="btn btn-light"><span class="icon" aria-hidden="true">chat</span> Pedir el enlace por WhatsApp</a>
+          <a href="/elimina-tu-cuenta/" class="btn border border-white/30 text-white hover:bg-white/10">Elimina tu cuenta</a>
+        </div>
+      </div>
+      <div class="flex justify-center" aria-hidden="true">
+        <div class="w-64 animate-float rounded-[3.2rem] border-[0.8rem] border-slate-900 bg-white p-4 text-on-surface shadow-modal">
+          <p class="text-xs font-bold text-on-surface-variant">ARM Móvil</p>
+          <div class="mt-3 rounded-2xl bg-primary p-4 text-white">
+            <p class="text-[1.1rem] text-on-primary-container">Periodo actual</p>
+            <p class="font-display text-3xl font-extrabold">$245.00</p>
+            <p class="mt-1 inline-block rounded-full bg-secondary-container px-2 text-[1rem] font-bold text-on-secondary-container">Sin adeudos pendientes</p>
+          </div>
+          <div class="mt-3 rounded-2xl bg-surface-container-low p-3">
+            <p class="text-[1.1rem] font-semibold">Consumo mensual</p>
+            <div class="mt-2 flex h-16 items-end gap-1.5">
+              <span class="w-full rounded bg-primary-brand/30 h-[40%]"></span><span class="w-full rounded bg-primary-brand/30 h-[55%]"></span><span class="w-full rounded bg-primary-brand/30 h-[45%]"></span><span class="w-full rounded bg-primary-brand/50 h-[70%]"></span><span class="w-full rounded bg-primary-brand h-[90%]"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CANALES -->
+  <section aria-labelledby="canales-titulo" class="container-site py-20">
+    <div class="mx-auto mb-10 max-w-2xl space-y-3 text-center">
+      <p class="eyebrow">Canales de atención ciudadana</p>
+      <h2 id="canales-titulo" class="section-title">Estamos para servirte</h2>
+      <p class="text-on-surface-variant">Comunícate con nuestro equipo especializado en horario laboral o utiliza nuestro servicio de mensajería para reportes continuos.</p>
+    </div>
+    <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        canales.map((c) => (
+          <li class="card flex flex-col">
+            <span class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-surface-container text-primary-brand"><span class="icon" aria-hidden="true">{c.icon}</span></span>
+            <h3 class="font-display text-lg font-bold">{c.title}</h3>
+            <p class="mt-1 flex-grow text-sm text-on-surface-variant">{c.text}</p>
+            <p class="mt-3 break-words font-display text-sm font-extrabold text-primary">{c.value}</p>
+            <a href={c.href} target={c.external ? '_blank' : undefined} rel={c.external ? 'noopener noreferrer' : undefined} class="btn btn-ghost mt-4 !h-[4rem] !text-xs">{c.cta}</a>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="mt-8 flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-surface-container-low p-5 text-sm text-on-surface-variant">
+      <span class="flex items-center gap-2"><span class="icon text-primary-brand" aria-hidden="true">account_balance</span>{site.legalName} · R.F.C. INMO80518GC9. Concesionario y operador exclusivo de agua potable, drenaje y saneamiento en Lomas de Río Medio 4 y Bosques de Río Medio.</span>
+      <span class="flex gap-4 font-semibold text-primary-brand"><a href="/politica-de-privacidad/" class="hover:underline">Aviso de privacidad</a></span>
+    </p>
+  </section>
+</BaseLayout>

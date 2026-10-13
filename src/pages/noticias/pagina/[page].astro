@@ -1,0 +1,25 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHero from '../../../components/PageHero.astro';
+import NewsList from '../../../components/NewsList.astro';
+
+export async function getStaticPaths() {
+  const PAGE_SIZE = 6;
+  const todas = (await getCollection('noticias')).sort((a, b) => b.data.fecha - a.data.fecha);
+  const totalPages = Math.ceil(todas.length / PAGE_SIZE);
+  return Array.from({ length: Math.max(0, totalPages - 1) }, (_, i) => {
+    const page = i + 2;
+    return { params: { page: String(page) }, props: { page, totalPages, items: todas.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE) } };
+  });
+}
+
+const { page, totalPages, items } = Astro.props;
+---
+
+<BaseLayout title={`Noticias, página ${page}`} description="Noticias y avisos de Aguas de Río Medio.">
+  <PageHero eyebrow="Sala de prensa" title={`Noticias y avisos (página ${page})`} icon="newspaper" />
+  <section class="container-site py-16">
+    <NewsList items={items} page={page} totalPages={totalPages} />
+  </section>
+</BaseLayout>

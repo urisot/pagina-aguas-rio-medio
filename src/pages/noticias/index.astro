@@ -1,0 +1,18 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import NewsList from '../../components/NewsList.astro';
+
+const PAGE_SIZE = 6;
+const todas = (await getCollection('noticias')).sort((a, b) => b.data.fecha - a.data.fecha);
+const totalPages = Math.max(1, Math.ceil(todas.length / PAGE_SIZE));
+---
+
+<BaseLayout title="Noticias" description="Avisos, mantenimientos, obras y noticias de Aguas de Río Medio para Lomas de Río Medio 4 y Bosques de Río Medio.">
+  <PageHero eyebrow="Sala de prensa" title="Noticias y avisos" lead="Entérate de mantenimientos, cambios de tarifas y obras en tu comunidad." icon="newspaper" />
+  <section class="container-site py-16">
+    <NewsList items={todas.slice(0, PAGE_SIZE)} page={1} totalPages={totalPages} />
+    <p class="mt-12 text-center"><a href="/sabias-que/" class="btn btn-eco"><span class="icon" aria-hidden="true">lightbulb</span> Ver ¿Sabías que?</a></p>
+  </section>
+</BaseLayout>

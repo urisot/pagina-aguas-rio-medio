@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import FaqSearch from '../components/react/FaqSearch.jsx';
+import { faqs } from '../data/faqs.js';
+import { site } from '../data/site.js';
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+
+const datos = [
+  ['water', 'Capacidad operativa', '1,400,000 L', 'Tanque elevado y 2 pozos profundos de 60 L/s'],
+  ['timer', 'Respuesta de fugas', '2 hrs prom.', 'Atención garantizada en máx. 24 horas'],
+  ['loyalty', 'Beneficio INAPAM', '50% descuento', 'A jubilados, pensionados y 3ra edad'],
+  ['verified_user', 'Supervisión', 'IMA Veracruz', 'Permiso otorgado formalmente por el IMA'],
+];
+---
+
+<BaseLayout
+  title="Preguntas frecuentes"
+  description="Respuestas sobre contratación, pagos, facturación, fugas, tarifas y descuentos de Aguas de Río Medio. Busca tu duda."
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <PageHero center eyebrow="Centro de asistencia al usuario · INMOPUENTES S.A. DE C.V." title="¿En qué podemos" highlight="ayudarte hoy?" lead="Consulta respuestas oficiales sobre contratos, facturación, red hidráulica y respaldo legal en Lomas de Río Medio 4 y Bosques de Río Medio." />
+
+  <section class="container-site -mt-2 py-10">
+    <ul class="mb-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        datos.map(([icon, label, value, nota]) => (
+          <li class="card flex items-start gap-3 !p-5">
+            <span class="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-surface-container text-primary-brand"><span class="icon" aria-hidden="true">{icon}</span></span>
+            <div><p class="text-[1.1rem] font-bold uppercase tracking-[0.04em] text-on-surface-variant">{label}</p><p class="font-display text-lg font-extrabold">{value}</p><p class="text-xs text-on-surface-variant">{nota}</p></div>
+          </li>
+        ))
+      }
+    </ul>
+    <FaqSearch client:load />
+  </section>
+
+  <section class="container-site pb-4 pt-8" aria-labelledby="ayuda-titulo">
+    <div class="flex flex-col items-start justify-between gap-6 rounded-3xl bg-gradient-to-r from-primary to-primary-brand p-8 text-white sm:p-10 lg:flex-row lg:items-center">
+      <div class="max-w-2xl">
+        <p class="mb-2 inline-flex rounded-full bg-white/15 px-3 py-1 font-display text-xs font-bold">Atención humana y cuadrillas de guardia</p>
+        <h2 id="ayuda-titulo" class="font-display text-3xl font-extrabold !text-white sm:text-4xl">¿No encontraste lo que buscabas?</h2>
+        <p class="mt-2 text-on-primary-container">Escríbenos directamente a la línea oficial de WhatsApp, llámanos o acude a nuestras oficinas en Río San Isidro.</p>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <a href={site.whatsappHref} target="_blank" rel="noopener noreferrer" class="btn btn-eco"><span class="icon" aria-hidden="true">chat</span> WhatsApp {site.phone}</a>
+        <a href={site.phoneHref} class="btn border border-white/30 text-white hover:bg-white/10"><span class="icon" aria-hidden="true">call</span> Llamar</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

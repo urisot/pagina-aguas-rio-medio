@@ -1,0 +1,233 @@
+@import 'tailwindcss';
+
+/*
+  Base 10px: html { font-size: 62.5% }.
+  Las escalas rem de Tailwind se reajustan (x1.6) para conservar las medidas del diseño.
+*/
+@theme {
+  --spacing: 0.4rem;
+
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+
+  --container-xs: 32rem;
+  --container-sm: 38.4rem;
+  --container-md: 44.8rem;
+  --container-lg: 51.2rem;
+  --container-xl: 57.6rem;
+  --container-2xl: 67.2rem;
+  --container-3xl: 76.8rem;
+  --container-4xl: 89.6rem;
+  --container-5xl: 102.4rem;
+  --container-6xl: 115.2rem;
+  --container-7xl: 128rem;
+
+  --text-xs: 1.2rem;
+  --text-xs--line-height: 1.6rem;
+  --text-sm: 1.4rem;
+  --text-sm--line-height: 2rem;
+  --text-base: 1.6rem;
+  --text-base--line-height: 2.4rem;
+  --text-lg: 1.8rem;
+  --text-lg--line-height: 2.8rem;
+  --text-xl: 2rem;
+  --text-xl--line-height: 2.8rem;
+  --text-2xl: 2.4rem;
+  --text-2xl--line-height: 3.2rem;
+  --text-3xl: 3rem;
+  --text-3xl--line-height: 3.8rem;
+  --text-4xl: 3.6rem;
+  --text-4xl--line-height: 4.4rem;
+  --text-5xl: 4.8rem;
+  --text-5xl--line-height: 1.1;
+  --text-6xl: 6rem;
+  --text-6xl--line-height: 1.05;
+
+  --radius-xs: 0.2rem;
+  --radius-sm: 0.4rem;
+  --radius-md: 0.8rem;
+  --radius-lg: 1.2rem;
+  --radius-xl: 1.6rem;
+  --radius-2xl: 2rem;
+  --radius-3xl: 2.8rem;
+
+  --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-body: 'Manrope', system-ui, sans-serif;
+
+  --color-background: #f9f9ff;
+  --color-surface: #f9f9ff;
+  --color-canvas: #f4f9fc;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f0f3ff;
+  --color-surface-container: #e7eeff;
+  --color-surface-container-high: #dee8ff;
+  --color-surface-container-highest: #d8e3fb;
+  --color-on-surface: #111c2d;
+  --color-on-surface-variant: #414751;
+  --color-outline: #6b7280;
+  --color-outline-variant: #c1c7d2;
+  --color-primary: #00538f;
+  --color-primary-brand: #0a6cb5;
+  --color-primary-container: #0a6cb5;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #deebff;
+  --color-secondary: #3e6a00;
+  --color-secondary-brand: #6ba524;
+  --color-secondary-container: #b2f26a;
+  --color-on-secondary-container: #2e5000;
+  --color-tertiary: #1d3557;
+  --color-error: #ba1a1a;
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #93000a;
+  --color-warn: #c2410c;
+  --color-warn-container: #fff7ed;
+
+  --shadow-card: 0 4px 20px -2px rgb(10 108 181 / 0.06);
+  --shadow-card-hover: 0 12px 32px -4px rgb(10 108 181 / 0.12);
+  --shadow-modal: 0 24px 48px -8px rgb(17 34 51 / 0.16);
+
+  --ease-liquid: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-rise: rise 0.7s var(--ease-liquid) both;
+  --animate-flow: flow 14s linear infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-1.2rem); }
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(2rem); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes flow {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+}
+
+@layer base {
+  html {
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+    scroll-padding-top: 9rem;
+  }
+  body {
+    font-family: var(--font-body);
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+    color: var(--color-on-surface);
+    background: var(--color-background);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    color: var(--color-on-surface);
+  }
+  :focus-visible {
+    outline: 0.3rem solid var(--color-primary-brand);
+    outline-offset: 0.2rem;
+    border-radius: 0.4rem;
+  }
+  ::-webkit-scrollbar { width: 0.8rem; height: 0.8rem; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgb(10 108 181 / 0.25); border-radius: 9999px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgb(10 108 181 / 0.5); }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .container-site { @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12; }
+  .eyebrow { @apply font-display text-xs font-bold uppercase tracking-[0.08em] text-primary; }
+  .section-title { @apply font-display text-3xl font-extrabold text-on-surface sm:text-4xl; }
+  .section-lead { @apply max-w-3xl text-lg text-on-surface-variant; }
+
+  .card {
+    @apply rounded-2xl border border-primary-brand/10 bg-white p-6 shadow-card transition duration-200;
+    transition-timing-function: var(--ease-liquid);
+  }
+  a.card:hover, .card-hover:hover { @apply -translate-y-1 shadow-card-hover; }
+
+  .btn {
+    @apply inline-flex h-[4.8rem] cursor-pointer items-center justify-center gap-2 rounded-lg px-6 font-display text-sm font-semibold transition duration-200 disabled:cursor-not-allowed disabled:opacity-50;
+    transition-timing-function: var(--ease-liquid);
+  }
+  .btn:not(:disabled):hover { @apply scale-[1.01]; }
+  .btn-primary { @apply bg-primary-brand text-white hover:bg-[#005a9c]; }
+  .btn-eco { @apply bg-secondary text-white hover:bg-on-secondary-container; }
+  .btn-ghost { @apply border border-primary-brand/25 bg-transparent text-primary hover:bg-primary-brand/5; }
+  .btn-light { @apply bg-white text-primary hover:bg-surface-container; }
+
+  .field-label { @apply mb-2 block font-display text-sm font-semibold text-on-surface; }
+  .field {
+    @apply h-[4.8rem] w-full rounded-lg border border-slate-800/20 bg-white px-4 text-base text-on-surface placeholder:text-slate-500 transition;
+  }
+  textarea.field { @apply h-auto min-h-[12rem] py-3; }
+  .field:focus { @apply border-primary-brand outline-none ring-4 ring-primary-brand/15; }
+  .field[aria-invalid='true'] { @apply border-error ring-4 ring-error/10; }
+  .field-error { @apply mt-2 flex items-center gap-1 text-sm font-semibold text-error; }
+
+  .badge { @apply inline-flex h-[2.8rem] items-center gap-1 rounded-full px-3 font-display text-xs font-bold; }
+  .badge-ok { @apply bg-[#eaf7e8] text-[#2e7d32]; }
+  .badge-warn { @apply bg-warn-container text-warn; }
+  .badge-info { @apply bg-[#eaf3f8] text-primary-brand; }
+
+  .prose-site { @apply max-w-3xl space-y-5 text-lg text-on-surface-variant; }
+  .prose-site h2 { @apply mt-10 font-display text-2xl font-bold text-on-surface; }
+  .prose-site h3 { @apply mt-6 font-display text-xl font-bold text-on-surface; }
+  .prose-site ul { @apply list-disc space-y-2 pl-6; }
+  .prose-site ol { @apply list-decimal space-y-2 pl-6; }
+  .prose-site a { @apply font-semibold text-primary-brand underline underline-offset-2; }
+  .prose-site strong { @apply text-on-surface; }
+}
+
+.icon {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 2.4rem;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  flex-shrink: 0;
+}
+.icon-fill { font-variation-settings: 'FILL' 1; }
+
+/* Revelado al hacer scroll solo con CSS (mejora progresiva, sin JavaScript). */
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: rise linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 35%;
+  }
+}
+
+.wave-bg {
+  background-image:
+    radial-gradient(circle at 20% 0%, rgb(10 108 181 / 0.1), transparent 45%),
+    radial-gradient(circle at 90% 30%, rgb(178 242 106 / 0.35), transparent 40%);
+}
+
+@media print {
+  header, footer, .no-print, .floating-actions { display: none !important; }
+  body { background: #fff; }
+  .print-area { box-shadow: none !important; border: 1px solid #ccc !important; }
+}

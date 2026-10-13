@@ -1,0 +1,26 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const items = await getCollection('sabias-que');
+  return items.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { titulo, resumen, lectura } = entry.data;
+---
+
+<BaseLayout title={titulo} description={resumen} type="article">
+  <article class="container-site py-14">
+    <nav aria-label="Migas de pan" class="mb-6 text-sm font-semibold"><a href="/sabias-que/" class="text-primary-brand hover:underline">¿Sabías que?</a></nav>
+    <header class="max-w-3xl space-y-4">
+      <span class="badge badge-ok">{lectura}</span>
+      <h1 class="font-display text-4xl font-extrabold sm:text-5xl">{titulo}</h1>
+      <p class="text-lg text-on-surface-variant">{resumen}</p>
+    </header>
+    <div class="prose-site mt-10"><Content /></div>
+    <p class="mt-12"><a href="/sabias-que/" class="btn btn-ghost">← Más consejos</a></p>
+  </article>
+</BaseLayout>

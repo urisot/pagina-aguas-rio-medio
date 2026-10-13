@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import ContactForm from '../components/react/ContactForm.jsx';
+import { site } from '../data/site.js';
+---
+
+<BaseLayout title="Contacto" description="Teléfonos, WhatsApp, correo, dirección y formulario de contacto de Aguas de Río Medio. Teléfono de emergencias disponible.">
+  <PageHero eyebrow="Atención ciudadana" title="Estamos para ayudarte" lead="Escríbenos, llámanos o visítanos. Las fugas se atienden en un máximo de 24 horas." icon="support_agent" />
+  <section class="container-site grid gap-10 py-16 lg:grid-cols-[1.3fr_1fr]">
+    <div>
+      <h2 class="section-title mb-6">Envíanos un mensaje</h2>
+      <ContactForm client:load />
+    </div>
+    <div class="space-y-4">
+      <a href={site.emergencyHref} class="card flex items-center gap-4 !border-error/30 !bg-error-container">
+        <span class="flex h-14 w-14 items-center justify-center rounded-2xl bg-error text-white"><span class="icon icon-fill" aria-hidden="true">emergency</span></span>
+        <span><span class="block text-xs font-bold uppercase tracking-[0.06em] text-on-error-container">Emergencias y fugas 24 h</span><span class="font-display text-2xl font-extrabold text-error">{site.emergencyPhone}</span></span>
+      </a>
+      <a href={site.whatsappHref} target="_blank" rel="noopener noreferrer" class="card card-hover flex items-center gap-4">
+        <span class="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#1f8f4e] text-white"><span class="icon icon-fill" aria-hidden="true">chat</span></span>
+        <span><span class="block text-xs font-bold uppercase tracking-[0.06em] text-on-surface-variant">WhatsApp</span><span class="font-display text-xl font-extrabold">{site.phone}</span></span>
+      </a>
+      <a href={site.phoneHref} class="card card-hover flex items-center gap-4">
+        <span class="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-brand text-white"><span class="icon" aria-hidden="true">call</span></span>
+        <span><span class="block text-xs font-bold uppercase tracking-[0.06em] text-on-surface-variant">Teléfono</span><span class="font-display text-xl font-extrabold">{site.phone}</span></span>
+      </a>
+      <a href={`mailto:${site.email}`} class="card card-hover flex items-center gap-4">
+        <span class="flex h-14 w-14 items-center justify-center rounded-2xl bg-tertiary text-white"><span class="icon" aria-hidden="true">mail</span></span>
+        <span><span class="block text-xs font-bold uppercase tracking-[0.06em] text-on-surface-variant">Correo</span><span class="break-all font-display text-lg font-extrabold">{site.email}</span></span>
+      </a>
+      <address class="card not-italic">
+        <p class="flex gap-3"><span class="icon text-primary-brand" aria-hidden="true">location_on</span><span>{site.address}</span></p>
+        <p class="mt-3 flex gap-3"><span class="icon text-primary-brand" aria-hidden="true">schedule</span><span>{site.schedule}</span></p>
+      </address>
+    </div>
+  </section>
+</BaseLayout>

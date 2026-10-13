@@ -1,0 +1,28 @@
+---
+import NewsCard from './NewsCard.astro';
+const { items, page, totalPages } = Astro.props;
+const hrefPagina = (n) => (n === 1 ? '/noticias/' : `/noticias/pagina/${n}/`);
+const paginas = Array.from({ length: totalPages }, (_, i) => i + 1);
+---
+
+<div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+  {items.map((n) => <NewsCard href={`/noticias/${n.id}/`} title={n.data.titulo} summary={n.data.resumen} date={n.data.fecha} category={n.data.categoria} />)}
+</div>
+
+{
+  totalPages > 1 && (
+    <nav aria-label="Paginación de noticias" class="mt-12 flex flex-wrap items-center justify-center gap-2">
+      {page > 1 && <a href={hrefPagina(page - 1)} rel="prev" class="btn btn-ghost !h-[4.4rem]">← Anterior</a>}
+      {paginas.map((n) => (
+        <a
+          href={hrefPagina(n)}
+          aria-current={n === page ? 'page' : undefined}
+          class:list={['flex h-[4.4rem] w-[4.4rem] items-center justify-center rounded-lg font-display font-bold', n === page ? 'bg-primary-brand text-white' : 'bg-white text-primary shadow-card hover:bg-surface-container']}
+        >
+          {n}
+        </a>
+      ))}
+      {page < totalPages && <a href={hrefPagina(page + 1)} rel="next" class="btn btn-ghost !h-[4.4rem]">Siguiente →</a>}
+    </nav>
+  )
+}

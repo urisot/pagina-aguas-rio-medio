@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import AccountsPortal from '../components/react/AccountsPortal.jsx';
+---
+
+<BaseLayout title="Consulta tu saldo" description="Agrega tus cuentas, consulta tu saldo y revisa el detalle de tu recibo de agua. Aguas de Río Medio.">
+  <PageHero eyebrow="Portal ciudadano · Pago en línea" title="Consulta tu saldo y" highlight="tu recibo" lead="Agrega una o varias cuentas para ver tu saldo y el detalle de cada recibo. Si no tienes tu número de cuenta, búscalo en la parte superior derecha de tu recibo." />
+
+  <section class="container-site py-12">
+    <AccountsPortal client:load />
+  </section>
+
+  <section aria-labelledby="opciones-titulo" class="container-site pb-6">
+    <div class="rounded-3xl border border-slate-100 bg-white p-6 shadow-card sm:p-8">
+      <h2 id="opciones-titulo" class="font-display text-2xl font-extrabold">Opciones de pago</h2>
+      <p class="mb-6 text-sm text-on-surface-variant">El pago en línea con tarjeta estará disponible muy pronto. Mientras tanto, liquida tu servicio por cualquiera de estos canales.</p>
+      <div class="grid gap-4 lg:grid-cols-3">
+        <div class="rounded-2xl bg-surface-container-low p-5">
+          <p class="flex items-center gap-3 font-display text-lg font-bold"><span class="flex h-11 w-11 items-center justify-center rounded-xl bg-primary-brand text-white"><span class="icon" aria-hidden="true">credit_card</span></span>Tarjetas en oficina</p>
+          <p class="mt-3 text-sm text-on-surface-variant">Crédito o débito en Río San Isidro No. 6 esq. Río Medellín, Fracc. Bosques de Río Medio.</p>
+          <p class="mt-3"><span class="badge badge-warn">Pago web próximamente</span></p>
+        </div>
+        <div class="rounded-2xl bg-surface-container-low p-5">
+          <p class="flex items-center gap-3 font-display text-lg font-bold"><span class="flex h-11 w-11 items-center justify-center rounded-xl bg-tertiary text-white"><span class="icon" aria-hidden="true">account_balance</span></span>Transferencia SPEI</p>
+          <p class="mt-3 text-sm text-on-surface-variant">Banco Santander. Beneficiario: INMOPUENTES S.A. DE C.V.</p>
+          <dl class="mt-3 space-y-1 rounded-xl bg-white p-3 text-xs">
+            <div class="flex justify-between gap-2"><dt class="text-on-surface-variant">Cuenta</dt><dd class="font-bold tabular-nums">6550301760-9</dd></div>
+            <div class="flex justify-between gap-2"><dt class="text-on-surface-variant">CLABE</dt><dd class="font-bold tabular-nums">014849655030176098</dd></div>
+          </dl>
+        </div>
+        <div class="rounded-2xl bg-surface-container-low p-5">
+          <p class="flex items-center gap-3 font-display text-lg font-bold"><span class="flex h-11 w-11 items-center justify-center rounded-xl bg-secondary-brand text-white"><span class="icon" aria-hidden="true">storefront</span></span>Efectivo en OXXO</p>
+          <p class="mt-3 text-sm text-on-surface-variant">Presenta el código de barras de tu recibo en cualquier sucursal. Envía tu comprobante a aguasderiomedio@gmail.com si pagas por transferencia.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

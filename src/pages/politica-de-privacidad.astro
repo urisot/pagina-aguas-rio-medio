@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { site } from '../data/site.js';
+---
+
+<BaseLayout title="Política de privacidad" description="Aviso de privacidad de Aguas de Río Medio: qué datos personales recabamos, para qué los usamos y cómo ejercer tus derechos.">
+  <PageHero eyebrow="Legal" title="Política de privacidad" icon="policy" />
+  <section class="container-site py-14">
+    <!-- TODO: sustituir por el texto legal vigente del sitio actual. Este borrador es provisional. -->
+    <div class="prose-site">
+      <p>{site.legalName}, bajo la marca {site.name}, es responsable del tratamiento de tus datos personales.</p>
+      <h2>Datos que recabamos</h2>
+      <ul>
+        <li>Identificación y contacto: nombre, correo electrónico y teléfono.</li>
+        <li>Datos de tu cuenta de servicio: número de cuenta, domicilio del predio y consumos.</li>
+        <li>Datos de navegación mediante Google Analytics 4 (de forma anónima y agregada).</li>
+      </ul>
+      <p>No almacenamos datos de tarjetas bancarias.</p>
+      <h2>Finalidades</h2>
+      <ul>
+        <li>Prestar el servicio de agua potable, alcantarillado y saneamiento.</li>
+        <li>Atender aclaraciones, reportes y solicitudes.</li>
+        <li>Mejorar el sitio y la aplicación móvil.</li>
+      </ul>
+      <h2>Tus derechos</h2>
+      <p>Puedes acceder, rectificar, cancelar u oponerte al tratamiento de tus datos escribiendo a <a href={`mailto:${site.email}`}>{site.email}</a>. Para eliminar tu cuenta de la app visita <a href="/elimina-tu-cuenta/">Elimina tu cuenta</a>.</p>
+      <h2>Cambios</h2>
+      <p>Publicaremos cualquier cambio a esta política en esta página.</p>
+    </div>
+  </section>
+</BaseLayout>

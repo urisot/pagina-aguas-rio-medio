@@ -1,0 +1,28 @@
+export const categorias = [
+  { id: 'contratacion', label: 'Contratación y requisitos', icon: 'assignment' },
+  { id: 'pagos', label: 'Pagos y facturación', icon: 'credit_card' },
+  { id: 'infraestructura', label: 'Infraestructura y fugas', icon: 'water_damage' },
+  { id: 'tarifas', label: 'Tarifas y descuentos', icon: 'loyalty' },
+  { id: 'legalidad', label: 'Legalidad y concesión', icon: 'gavel' },
+];
+
+export const faqs = [
+  { id: 1, cat: 'contratacion', q: '¿Qué necesito para contratar el servicio de agua potable, drenaje y saneamiento?', a: 'Acude a nuestras oficinas con la carta de entrega de la vivienda y una identificación oficial (INE) del propietario. En oficina se te entrega tu contrato azul oficial foliado, que debes conservar.' },
+  { id: 2, cat: 'contratacion', q: '¿Si no tengo la carta de entrega de vivienda, qué otros documentos puedo presentar?', a: 'Puedes presentar escrituras públicas de la propiedad, comprobante de pago de predial actualizado a nombre del interesado o un contrato SAS previo. Cualquiera de estos documentos acredita la titularidad del predio.' },
+  { id: 3, cat: 'contratacion', q: 'Tengo contrato previo con SAS, ¿debo volver a contratar y pagar?', a: 'No pagarás de nuevo los derechos de conexión. Sí es obligatorio firmar el nuevo contrato con Aguas de Río Medio para actualizar tu expediente e integrar tu folio al padrón.' },
+  { id: 4, cat: 'contratacion', q: '¿Puede acudir otra persona a hacer el trámite si no soy el titular?', a: 'Sí. Debe presentar carta poder simple firmada por el propietario, copia legible de la INE del propietario y su propia identificación oficial con fotografía.' },
+  { id: 5, cat: 'contratacion', q: 'Si adquiero una vivienda nueva, ¿ya cuento con servicio de agua potable?', a: 'Sí, la red ya está conectada a la toma domiciliaria. Si no formalizaste el contrato con la desarrolladora, tienes 15 días naturales para regularizarlo en nuestras oficinas; de lo contrario se procede a la suspensión preventiva del servicio.' },
+  { id: 6, cat: 'contratacion', q: '¿Cómo puedo diferir o pagar los derechos del contrato?', a: 'El contrato cubre derechos de conexión de agua y drenaje más IVA. Puedes pagar en una sola exhibición con tarjeta, diferir hasta 24 mensualidades sin intereses cargadas a tu recibo, o liquidar en OXXO con línea de código de barras.' },
+  { id: 7, cat: 'pagos', q: '¿En qué lugares y por qué métodos puedo pagar mi recibo?', a: 'Oficinas comerciales de Río San Isidro No. 6 esq. Río Medellín (tarjeta), tiendas OXXO (efectivo con código de barras), portal web (tarjeta, 24 horas) y transferencia o depósito en Santander para quienes viven fuera de la ciudad.' },
+  { id: 8, cat: 'pagos', q: '¿Cuántos días tengo para pagar el recibo y qué pasa si vence?', a: 'Tienes aproximadamente 12 días naturales después de la fecha de facturación para pagar sin recargos. En OXXO puedes liquidar hasta la fecha de límite extendido impresa al pie del recibo; después, el saldo pasa como rezago con intereses moratorios al siguiente ciclo.' },
+  { id: 9, cat: 'pagos', q: '¿Qué conceptos se cobran en el recibo mensual?', a: 'Suministro de agua potable, drenaje y alcantarillado, saneamiento y tratamiento, derechos ambientales y, en su caso, la amortización del contrato diferido.' },
+  { id: 10, cat: 'pagos', q: 'Mi recibo no tiene código de barras o está dañado, ¿qué hago?', a: 'Si no trae código de barras, tu cuenta está al corriente (saldo cero). Si está dañado o lo extraviaste, acude a nuestras oficinas con tu nombre y domicilio para recibir un duplicado al instante.' },
+  { id: 11, cat: 'pagos', q: '¿Puedo hacer pagos parciales o convenios si tengo meses de atraso?', a: 'Sí. Acude al módulo de atención personalizada; nuestro personal te propondrá un pago parcial o un convenio de reestructuración en mensualidades.' },
+  { id: 12, cat: 'pagos', q: '¿Cuáles son los datos bancarios para pagar desde fuera de la ciudad?', a: 'Banco Santander, cuenta 6550301760-9, CLABE 014849655030176098, a nombre de INMOPUENTES S.A. DE C.V. Envía tu comprobante con el número de contrato a aguasderiomedio@gmail.com.' },
+  { id: 13, cat: 'infraestructura', q: '¿Con qué infraestructura cuenta Aguas de Río Medio?', a: 'Un tanque elevado de 1.4 millones de litros, 2 pozos profundos de 60 litros por segundo cada uno, planta de tratamiento de aguas residuales y 27 km de red hidráulica y colectores sanitarios.' },
+  { id: 14, cat: 'infraestructura', q: '¿En cuánto tiempo se repara una fuga reportada?', a: 'El promedio de reparación es de 2 horas. El tiempo máximo normativo para una fuga compleja es de 24 horas desde el reporte por WhatsApp o ventanilla.' },
+  { id: 15, cat: 'infraestructura', q: '¿Cada cuánto se realiza el mantenimiento preventivo?', a: 'El mantenimiento preventivo de la red e instalaciones se ejecuta cada 6 meses.' },
+  { id: 16, cat: 'tarifas', q: '¿Existe descuento para adultos mayores o pensionados?', a: 'Sí. Jubilados, pensionados y adultos mayores (INAPAM) reciben 50% de bonificación mensual en uso doméstico. Requieren credencial INAPAM o documento oficial de pensión, INE y predial, estar al corriente y que sea un solo inmueble habitado por el beneficiario.' },
+  { id: 17, cat: 'tarifas', q: '¿Cómo se calculan el drenaje y el saneamiento?', a: 'Conforme al tabulador metropolitano, el drenaje equivale al 35% del valor de agua potable y el saneamiento al 20%.' },
+  { id: 18, cat: 'legalidad', q: '¿Quién autoriza y supervisa el servicio?', a: 'El servicio se presta bajo concesión de INMOPUENTES S.A. DE C.V., con permiso otorgado por el Instituto Metropolitano del Agua (IMA) y conforme a la Ley de Aguas para el Estado de Veracruz.' },
+];

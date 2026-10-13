@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import DeleteAccountForm from '../components/react/DeleteAccountForm.jsx';
+import { site } from '../data/site.js';
+---
+
+<BaseLayout title="Elimina tu cuenta" description="Solicita la eliminación de tu cuenta y tus datos personales de la aplicación ARM Móvil de Aguas de Río Medio.">
+  <PageHero eyebrow="ARM Móvil" title="Elimina tu cuenta" lead="Solicita la baja de tu cuenta y de tus datos personales de la aplicación móvil." icon="manage_accounts" />
+  <section class="container-site grid gap-10 py-14 lg:grid-cols-2">
+    <div class="prose-site">
+      <h2 class="!mt-0">¿Qué se elimina?</h2>
+      <ul>
+        <li>Tu perfil (nombre, correo, teléfono y contraseña).</li>
+        <li>Las cuentas de servicio vinculadas a tu perfil.</li>
+        <li>Las tarjetas guardadas y tus reportes en la app.</li>
+      </ul>
+      <h2>¿Qué se conserva?</h2>
+      <p>Por obligaciones legales y fiscales, conservamos el historial de pagos y recibos asociados a tu contrato.</p>
+      <h2>Plazo</h2>
+      <p>Procesamos tu solicitud en un máximo de 30 días y te avisamos por correo. También puedes escribir a <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+    </div>
+    <DeleteAccountForm client:load />
+  </section>
+</BaseLayout>

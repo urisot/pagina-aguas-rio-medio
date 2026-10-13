@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { site, tramites } from '../data/site.js';
+
+const canales = [
+  { icon: 'point_of_sale', title: 'Oficinas comerciales', text: 'Río San Isidro No. 6 esq. Río Medellín, Fracc. Bosques de Río Medio. Tarjeta de crédito o débito.' },
+  { icon: 'store', title: 'Tiendas OXXO', text: 'Efectivo en cualquier sucursal con el código de barras de tu recibo.' },
+  { icon: 'language', title: 'Portal web', text: 'Consulta tu adeudo en línea las 24 horas.' },
+  { icon: 'account_balance', title: 'Banco Santander', text: 'Para pagos fuera de la ciudad: cuenta 6550301760-9, CLABE 014849655030176098, INMOPUENTES S.A. DE C.V.' },
+];
+---
+
+<BaseLayout
+  title="Trámites y servicios"
+  description="Requisitos para contratar agua potable, drenaje y saneamiento, cambio de titular, reporte de fugas y canales para pagar tu recibo en Aguas de Río Medio."
+>
+  <PageHero eyebrow="Trámites y servicios" title="Realiza tus gestiones sin complicaciones" lead="Conoce los requisitos y canales disponibles antes de acudir a nuestras oficinas." icon="assignment" />
+
+  <section class="container-site py-16">
+    <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        tramites.map((t) => (
+          <li>
+            <a href={t.href} class="card group flex h-full flex-col">
+              <span class="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-surface-container text-primary-brand transition group-hover:bg-primary-brand group-hover:text-white">
+                <span class="icon !text-[2.8rem]" aria-hidden="true">{t.icon}</span>
+              </span>
+              <h2 class="font-display text-xl font-bold">{t.title}</h2>
+              <p class="mt-2 flex-grow text-on-surface-variant">{t.text}</p>
+              <span class="mt-4 font-display text-sm font-bold text-primary-brand">{t.cta} →</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section id="contratacion" class="bg-surface-container-low py-16">
+    <div class="container-site grid gap-10 lg:grid-cols-2">
+      <div class="space-y-4">
+        <p class="eyebrow">Contratación</p>
+        <h2 class="section-title">¿Cómo contrato el servicio?</h2>
+        <p class="section-lead">Acude a nuestras oficinas con la siguiente documentación y recibe tu contrato azul oficial foliado.</p>
+        <p class="text-sm text-on-surface-variant">Si compraste una vivienda nueva, tienes 15 días naturales para regularizar tu contrato.</p>
+      </div>
+      <ul class="space-y-3">
+        <li class="card flex gap-4"><span class="icon text-primary-brand" aria-hidden="true">description</span><div><p class="font-display font-bold">Carta de entrega de la vivienda</p><p class="text-sm text-on-surface-variant">Alternativas: escrituras, predial actualizado o contrato SAS previo.</p></div></li>
+        <li class="card flex gap-4"><span class="icon text-primary-brand" aria-hidden="true">badge</span><div><p class="font-display font-bold">Identificación oficial (INE) del propietario</p><p class="text-sm text-on-surface-variant">Si acude otra persona, lleva carta poder simple, INE del propietario y la propia.</p></div></li>
+        <li class="card flex gap-4"><span class="icon text-primary-brand" aria-hidden="true">credit_score</span><div><p class="font-display font-bold">Forma de pago de los derechos</p><p class="text-sm text-on-surface-variant">Un solo pago con tarjeta, hasta 24 mensualidades sin intereses en tu recibo, o línea OXXO.</p></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="donde-pagar" class="container-site py-16">
+    <div class="mb-10 space-y-3">
+      <p class="eyebrow">Pagos</p>
+      <h2 class="section-title">¿Dónde pagar tu recibo?</h2>
+      <p class="section-lead">Cuentas con aproximadamente 12 días naturales después de la facturación para pagar sin recargos.</p>
+    </div>
+    <ul class="grid gap-5 sm:grid-cols-2">
+      {
+        canales.map((c) => (
+          <li class="card flex gap-4">
+            <span class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-surface-container text-primary-brand"><span class="icon" aria-hidden="true">{c.icon}</span></span>
+            <div><h3 class="font-display text-lg font-bold">{c.title}</h3><p class="text-on-surface-variant">{c.text}</p></div>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="mt-6 text-sm text-on-surface-variant">Envía tu comprobante con el número de contrato a <a class="font-semibold text-primary-brand underline" href={`mailto:${site.email}`}>{site.email}</a>.</p>
+  </section>
+</BaseLayout>

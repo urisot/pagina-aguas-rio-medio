@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import TarifaCards from '../components/react/TarifaCards.jsx';
+import TarifaSimulator from '../components/react/TarifaSimulator.jsx';
+import { tarifas, totalTarifa, formatoMxn } from '../data/tarifas.js';
+
+const requisitos = [
+  ['badge', 'Credencial INAPAM', 'O documento oficial de jubilación o pensión (IMSS, ISSSTE, IPE).'],
+  ['id_card', 'INE y predial', 'La credencial y el predio deben coincidir con el domicilio del fraccionamiento.'],
+  ['task_alt', 'Estar al corriente', 'Sin adeudos anteriores para aplicar el descuento del ciclo.'],
+  ['home', 'Un solo inmueble', 'Solo la casa habitación habitada por el beneficiario.'],
+];
+const domesticas = tarifas.filter((t) => t.grupo === 'domestico');
+---
+
+<BaseLayout
+  title="Tarifas vigentes"
+  description="Tabulador de cuotas de agua potable, drenaje y saneamiento 2026 en Lomas de Río Medio 4 y Bosques de Río Medio, con descuento INAPAM y simulador de cuota mensual."
+>
+  <PageHero eyebrow="Régimen tarifario oficial · Ciclo 2026" title="Tabulador y cuotas de" highlight="tarifas vigentes" lead="Estructura tarifaria aprobada para la prestación integral de los servicios públicos de agua potable, alcantarillado sanitario y tratamiento de aguas residuales en Lomas de Río Medio 4 y Bosques de Río Medio." />
+
+  <section class="container-site py-14" aria-labelledby="tabla-titulo">
+    <p class="eyebrow">Desglose técnico y cuotas base</p>
+    <h2 id="tabla-titulo" class="section-title mb-2">Tarifario cuota fija y servicio medido (vigente)</h2>
+    <p class="section-lead mb-8">Valores mensuales con desglose de agua potable, drenaje, saneamiento e impuesto al valor agregado (IVA).</p>
+    <TarifaCards client:load />
+    <p class="mt-8 flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-surface-container-low p-5 text-sm text-on-surface-variant">
+      <span class="flex items-start gap-3"><span class="icon text-primary-brand" aria-hidden="true">info</span><span><strong class="text-on-surface">¿Cómo se calcula el saneamiento y el drenaje?</strong> Conforme al tabulador metropolitano, el drenaje equivale al 35% del valor de agua potable y el saneamiento al 20%.</span></span>
+      <a href="/preguntas-frecuentes/" class="btn btn-ghost !h-[4rem]">Preguntas frecuentes</a>
+    </p>
+  </section>
+
+  <section id="inapam" class="bg-surface-container-low py-16" aria-labelledby="inapam-titulo">
+    <div class="container-site grid gap-10 lg:grid-cols-5">
+      <div class="space-y-5 lg:col-span-3">
+        <span class="badge bg-secondary-container text-on-secondary-container">Programa social de apoyo comunitario</span>
+        <h2 id="inapam-titulo" class="font-display text-4xl font-extrabold">50% de bonificación mensual para jubilados, pensionados y adultos mayores (INAPAM)</h2>
+        <p class="text-on-surface-variant">Aguas de Río Medio garantiza el derecho al agua con equidad social. Las personas titulares que cumplan los lineamientos reciben un subsidio directo del cincuenta por ciento en su factura de uso doméstico.</p>
+        <ul class="grid gap-3 sm:grid-cols-2">
+          {requisitos.map(([icon, titulo, texto]) => (
+            <li class="flex gap-3 rounded-xl bg-white p-4"><span class="icon text-secondary-brand" aria-hidden="true">check_circle</span><span><span class="block font-display text-sm font-bold">{titulo}</span><span class="text-xs text-on-surface-variant">{texto}</span></span></li>
+          ))}
+        </ul>
+        <div class="flex flex-wrap gap-3">
+          <a href="/contacto/" class="btn btn-primary"><span class="icon !text-[2rem]" aria-hidden="true">assignment</span> Solicitar bonificación en ventanilla</a>
+          <a href="https://wa.me/522294535838" target="_blank" rel="noopener noreferrer" class="btn btn-ghost"><span class="icon !text-[2rem]" aria-hidden="true">chat</span> Asesoría por WhatsApp</a>
+        </div>
+      </div>
+      <div class="self-start rounded-2xl border border-primary-brand/10 bg-white p-6 shadow-card lg:col-span-2">
+        <p class="flex items-center justify-between gap-2 font-display text-lg font-bold">Simulación con descuento <span class="badge bg-secondary-container text-on-secondary-container">−50% aplicado</span></p>
+        <ul class="mt-4 divide-y divide-slate-100">
+          {domesticas.map((t) => (
+            <li class="flex items-center justify-between gap-3 py-3">
+              <span><span class="block text-sm font-bold">{t.nombre} ({t.codigo})</span><span class="text-xs text-on-surface-variant">Tarifa regular: {formatoMxn(totalTarifa(t))}</span></span>
+              <span class="font-display text-2xl font-extrabold text-secondary tabular-nums">{formatoMxn(totalTarifa(t) / 2)}</span>
+            </li>
+          ))}
+        </ul>
+        <p class="mt-3 text-xs text-on-surface-variant">* El descuento aplica sobre la totalidad de la cuota mensual de uso habitacional con base en el padrón de beneficiarios.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-site py-16" aria-labelledby="sim-titulo">
+    <div class="rounded-3xl border border-slate-100 bg-white p-6 shadow-card sm:p-10">
+      <div class="mb-8 max-w-2xl space-y-3">
+        <span class="badge badge-info">Herramienta ciudadana</span>
+        <h2 id="sim-titulo" class="font-display text-4xl font-extrabold">Simulador de cuota mensual estimada</h2>
+        <p class="text-on-surface-variant">Ingresa las características de tu inmueble para previsualizar el costo de tu servicio mensual.</p>
+      </div>
+      <TarifaSimulator client:visible />
+    </div>
+  </section>
+</BaseLayout>
