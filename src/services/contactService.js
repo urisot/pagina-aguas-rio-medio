@@ -8,7 +8,7 @@ async function enviar(tipo, datos) {
       code: 'NOT_CONFIGURED',
     });
   }
-  // Se envía la ruta completa como base para no depender de PUBLIC_API_BASE_URL.
+  // Se envía la ruta completa como base: este endpoint no pasa por el proxy /api.
   return apiRequest('', { method: 'POST', baseUrl: ENDPOINT, body: { tipo, ...datos } });
 }
 

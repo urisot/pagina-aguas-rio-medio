@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import PortalNav from '../../components/PortalNav.astro';
+import MisReportes from '../../components/react/MisReportes.jsx';
+---
+
+<BaseLayout title="Mis reportes" description="Da seguimiento a tus reportes de fugas, falta de agua y otros servicios." noindex>
+  <PageHero eyebrow="Portal ciudadano" title="Mis" highlight="reportes" lead="Consulta el estatus de los reportes que levantaste." />
+  <PortalNav />
+  <section class="container-site py-12">
+    <MisReportes client:only="react" />
+  </section>
+</BaseLayout>

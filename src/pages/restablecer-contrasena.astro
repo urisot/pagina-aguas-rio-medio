@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import RestableceForm from '../components/react/RestableceForm.jsx';
+---
+
+<BaseLayout title="Restablece tu contraseña" description="Recupera el acceso a tu cuenta de Aguas de Río Medio." noindex>
+  <PageHero eyebrow="Portal ciudadano" title="Restablece tu" highlight="contraseña" />
+  <section class="container-site py-12">
+    <RestableceForm client:only="react" />
+  </section>
+</BaseLayout>

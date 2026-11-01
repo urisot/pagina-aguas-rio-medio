@@ -1,0 +1,14 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "AzureWebJobsStorage": "",
+    "WCF_BASE_URL": "https://TU-BACKEND.azurewebsites.net/ComapaVic_OS.svc",
+    "WCF_PASS": "",
+    "SESSION_SECRET": "",
+    "YOLOPAGO_HABILITADO": "false",
+    "YOLOPAGO_URL": "https://qa.yolopago.com.mx/ce/j_spring_security_check",
+    "YOLOPAGO_USUARIO": "",
+    "YOLOPAGO_TOKEN": ""
+  }
+}

@@ -4,3 +4,5 @@ dist/
 .env
 .env.*
 !.env.template
+api/local.settings.json
+api/node_modules/

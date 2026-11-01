@@ -1,14 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
-import AccountsPortal from '../components/react/AccountsPortal.jsx';
+import PortalNav from '../components/PortalNav.astro';
+import MisRecibos from '../components/react/MisRecibos.jsx';
 ---
 
-<BaseLayout title="Consulta tu saldo" description="Agrega tus cuentas, consulta tu saldo y revisa el detalle de tu recibo de agua. Aguas de Río Medio.">
-  <PageHero eyebrow="Portal ciudadano · Pago en línea" title="Consulta tu saldo y" highlight="tu recibo" lead="Agrega una o varias cuentas para ver tu saldo y el detalle de cada recibo. Si no tienes tu número de cuenta, búscalo en la parte superior derecha de tu recibo." />
+<BaseLayout title="Mis recibos" description="Inicia sesión para consultar tu saldo, el detalle de tu recibo de agua y tu historial de consumo. Aguas de Río Medio.">
+  <PageHero eyebrow="Portal ciudadano · Pago en línea" title="Consulta tu saldo y" highlight="tu recibo" lead="Vincula tus recibos para ver tu saldo, los conceptos que debes y tu historial de consumo. Usa la misma cuenta de la app ARM Móvil." />
+  <PortalNav />
 
   <section class="container-site py-12">
-    <AccountsPortal client:load />
+    <MisRecibos client:only="react" />
   </section>
 
   <section aria-labelledby="opciones-titulo" class="container-site pb-6">

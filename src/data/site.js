@@ -34,7 +34,7 @@ export const footerLinks = [
 ];
 
 export const tramites = [
-  { icon: 'payments', title: 'Paga en línea', text: 'Consulta tu adeudo con tu número de cuenta y revisa tu recibo desde el celular.', href: '/pago-en-linea/', cta: 'Ir a pagos' },
+  { icon: 'payments', title: 'Paga en línea', text: 'Inicia sesión, vincula tus recibos y revisa tu saldo e historial de consumo desde el celular.', href: '/pago-en-linea/', cta: 'Ir a pagos' },
   { icon: 'assignment', title: '¿Cómo contrato?', text: 'Documentos para contratar agua potable, drenaje y saneamiento o cambiar de titular.', href: '/tramites-y-servicios/#contratacion', cta: 'Ver requisitos' },
   { icon: 'plumbing', title: 'Reporta una fuga', text: 'Fugas en vía pública, baja presión o desazolve. Atendemos en máximo 24 horas.', href: '/contacto/', cta: 'Levantar reporte' },
   { icon: 'storefront', title: '¿Dónde pagar tu recibo?', text: 'Oficinas, tiendas OXXO, portal web y transferencia bancaria.', href: '/tramites-y-servicios/#donde-pagar', cta: 'Ver canales' },

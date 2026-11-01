@@ -58,10 +58,39 @@ Stack de tecnología:
 
 Backend (Azure):
 
-- Código fuente: `C:\Users\Uriel Soto\source\repos\WCF-ARM-Pagos-Android` (pendiente).
+- Código fuente: `C:\Users\Uriel Soto\source\repos\WCF-ARM-Pagos-Android`.
 - Tecnología: WCF (VB.NET, .NET Framework) con `webHttpBinding` JSON, servicio `ComapaVic_OS.svc`. CORS abierto (`*`).
-- URL base de la API: variable de entorno `PUBLIC_API_BASE_URL` (incluye `/ComapaVic_OS.svc`).
-- Mapa de endpoints que usa el sitio:
+- El navegador nunca llama al WCF. Todo pasa por el proxy `api/` (Azure Functions administradas de Static Web Apps, Node 20, modelo v4, `@azure/functions`):
+  - Solo el proxy conoce la llave `pass` y la URL del WCF. Variables: `WCF_BASE_URL` (incluye `/ComapaVic_OS.svc`), `WCF_PASS` y `SESSION_SECRET` (32+ caracteres). En local van en `api/local.settings.json` (ignorado; plantilla `api/local.settings.json.template`); en Azure, en la configuración de entorno de la Static Web App.
+  - Sesión sin estado: cookie `arm_sesion` (HttpOnly, Secure, SameSite=Strict, 8 h) firmada con HMAC. El `cIdUsuarioApp` siempre sale de la cookie, nunca del cliente. `arm_nombre` (no HttpOnly) solo sirve para pintar "Mi cuenta" en el header.
+  - Antes de consultar una cuenta, recibo o reporte, el proxy revisa que pertenezca al usuario (`LisRecUsrApp` / `DatUsrApp`); si no, responde 404.
+  - Las respuestas se normalizan en `api/src/lib/normalizar.js` y nunca incluyen `key`, `contrasena` ni tarjetas.
+  - Protección CSRF: los métodos distintos de GET exigen el header `X-Requested-With: arm-web` (lo agrega `src/services/apiClient.js`).
+  - Contraseñas: el proxy calcula `SHA1(correo + contraseña)` en mayúsculas, igual que `Util.HashContrasena` de la app.
+- Mapa del proxy (`/api/...` → operación del WCF):
+
+| Proxy | WCF | Notas |
+| --- | --- | --- |
+| `POST auth/login` / `POST auth/logout` / `GET auth/sesion` | `ValidaUsrAppPruebas` | `ValidaUsrApp` está deshabilitada en el WCF. |
+| `POST registro/codigo`, `registro/reenviar`, `registro/confirmar` | `EnvCodEmail`, `InsUsrApp` | El código lo genera y valida el proxy (cookie firmada `arm_registro`, 15 min, 5 intentos). |
+| `POST contrasena/restablecer` | `CamConEmail` | El WCF guarda y envía por correo una contraseña temporal; responde igual exista o no el correo. |
+| `GET/POST cuentas`, `GET/DELETE cuentas/{id}` | `LisRecUsrApp`, `ValUsrPad` + `InsCuentasUsrApp`, `GetDatPad`, `DelCuentasUsrApp` | Vincular pide cuenta y titular, como la app. |
+| `GET cuentas/{id}/recibos`, `cuentas/{id}/pagos`, `cuentas/{id}/recibos/{idRecibo}/conceptos` | `LisHisRec`, `LisHisPag`, `DetUsrRec` | |
+| `GET reportes`, `reportes/{folio}` | `DatUsrApp` (reportes), `DetRpt` + `LisHisRpt` | Sin `LisHisRpt` en el servidor, la línea de tiempo usa los pasos del flujo. |
+| `POST perfil/contrasena` | `ValidaUsrAppPruebas` + `ActConUsrApp` | |
+| `GET/POST pagos/yolopago` | `GenTok` (la llave va en `c1`) | GET dice si está habilitado. POST valida cuenta, monto (`requerido`/`total`, calculado con `DatUsrApp`) y titular. Bloqueado con `YOLOPAGO_HABILITADO`; ver "Pago con YoLoPago". |
+
+- Pago con YoLoPago (botón "Pagar" en las tarjetas de `/pago-en-linea/`, ventana `PagoYoLoPago.jsx`):
+  - Flujo de la app (`PagoTarjetaActivity`, agregador 3): `GenTok` → POST de formulario a `https://portal.yolopago.com.mx/ce/j_spring_security_check` (pruebas: `qa.yolopago.com.mx`) con `j_username`, `j_password` (token del comercio), `amount`, `operation=COMPRA` y `params` (JSON con `trxNbr` = `folio_pago`, `name`, `lastname`, `email`, `phoneNumber`, `street`, `externalNumber`, `zipCode`) → YoLoPago captura la tarjeta y 3DSecure → llama `window.yolopagoMobile.processPaymentResult(json)` (interfaz que solo existe en el WebView de la app) con `{ paymentinfo: { success, message, paymentStatus, reference, controlNumber, codeAuthorizer, card, ... }, trxNbr, email, hmac }` → la app aplica con `AplPag` (`c1` = `key_pago`, `c2` = usuario, `c3` = referencia, `c4` = autorización, `d1` = monto). Nadie valida el `hmac`.
+  - Variables del proxy: `YOLOPAGO_HABILITADO` (`true` para activar), `YOLOPAGO_URL`, `YOLOPAGO_USUARIO`, `YOLOPAGO_TOKEN`. El `key_pago` de `GenTok` no llega al navegador: queda cifrado en la cookie `arm_pago` (20 min) ligado a usuario, cuenta y monto.
+  - El checkout queda listo (iframe con POST del formulario y escucha de `postMessage` solo del origen de YoLoPago), pero NO habilitar hasta resolver:
+    - Pedir a YoLoPago cómo devuelve el resultado a una página web (URL de retorno, `postMessage` o webhook) y cómo se calcula el `hmac`.
+    - Agregar `POST pagos/yolopago/confirmar`: validar `hmac` (o confirmar por webhook) y aplicar con `AplPag` usando la cookie `arm_pago`; no existe todavía.
+    - Las credenciales del comercio viajan al navegador en el formulario (YoLoPago abre sesión con cookie en su dominio). Preguntar a YoLoPago por un flujo de checkout del lado servidor (liga de pago o sesión por API).
+    - Confirmar que el portal de YoLoPago permite mostrarse en un iframe (`X-Frame-Options`/CSP); si no, abrirlo en una ventana nueva.
+
+- Desarrollo local del portal: requiere Azure Functions Core Tools instalado globalmente. `npm run dev:portal` levanta Astro y el proxy juntos en `http://localhost:4280` (SWA CLI).
+- Endpoints del WCF que el sitio ya no usa directamente (referencia para el pago web):
 
 | Uso | Método | Endpoint | Autenticación | Notas |
 | --- | --- | --- | --- | --- |
@@ -79,6 +108,9 @@ Backend (Azure):
   - Endpoints para formulario de contacto y baja de cuenta (`PUBLIC_CONTACT_ENDPOINT`); hoy `EnvCodDelEmail`/`DelEmailPerfil` exigen `pass`.
   - `ActualizarCargoYP` concatena SQL con parámetros del cliente (riesgo de inyección SQL): corregir.
   - Restringir CORS al dominio del sitio.
+  - `ValidaUsrAppPruebas` devuelve la llave `pass` y el hash de la contraseña a cualquier cliente que inicie sesión, y `ValidaUsrPsw` concatena el correo en SQL (el proxy solo deja pasar correos con formato válido).
+  - Las operaciones con `pass` no validan al usuario: quien tenga la llave puede leer los datos de cualquier `cIdUsuarioApp`.
+  - `EnvCodEmail` y `CamConEmail` no piden `pass`: cualquiera puede mandar correos o restablecer la contraseña de otra persona llamando al WCF directamente.
 
 - Revisar en el backend: autenticación (JWT, API key, etc.), pasarela de pago y su flujo de confirmación (webhook o callback), configuración de CORS (el dominio del sitio nuevo debe estar permitido) y modelos/DTOs de respuesta.
 - No modificar el backend desde este proyecto. Si hace falta un cambio (CORS, nuevo endpoint), documentarlo y avisar al usuario.

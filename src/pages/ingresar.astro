@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import LoginForm from '../components/react/LoginForm.jsx';
+---
+
+<BaseLayout title="Inicia sesión" description="Inicia sesión para consultar tus recibos, tu historial de consumo y tus reportes. Aguas de Río Medio." noindex>
+  <PageHero eyebrow="Portal ciudadano" title="Ingresa a" highlight="tu cuenta" lead="Usa el mismo correo y contraseña de la app ARM Móvil." />
+  <section class="container-site py-12">
+    <LoginForm client:only="react" />
+  </section>
+</BaseLayout>

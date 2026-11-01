@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import PortalNav from '../components/PortalNav.astro';
+import MiPerfil from '../components/react/MiPerfil.jsx';
+---
+
+<BaseLayout title="Mi perfil" description="Tus datos de contacto y contraseña." noindex>
+  <PageHero eyebrow="Portal ciudadano" title="Mi" highlight="perfil" />
+  <PortalNav />
+  <section class="container-site py-12">
+    <MiPerfil client:only="react" />
+  </section>
+</BaseLayout>
