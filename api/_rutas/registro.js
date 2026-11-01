@@ -1,11 +1,11 @@
-import { ruta, json, error, leerJson, validarCorreo, HttpError } from '../lib/http.js';
-import { llamarWcf, esExito } from '../lib/wcf.js';
+import { ruta, json, error, leerJson, validarCorreo, HttpError } from '../_lib/http.js';
+import { llamarWcf, esExito } from '../_lib/wcf.js';
 import {
   cookie, borrarCookie, cookiesSesion, firmar, verificar, leerCookie,
   hashContrasena, huellaCodigo, codigoNumerico,
-} from '../lib/sesion.js';
-import { validarContrasenaNueva } from '../lib/usuarios.js';
-import * as normalizar from '../lib/normalizar.js';
+} from '../_lib/sesion.js';
+import { validarContrasenaNueva } from '../_lib/usuarios.js';
+import * as normalizar from '../_lib/normalizar.js';
 
 // Registro en dos pasos, igual que la app (RegistroPideDatos → RegistroPideCodigo), pero el código
 // se genera y se valida aquí: el navegador nunca lo conoce. Los datos viajan en una cookie firmada.

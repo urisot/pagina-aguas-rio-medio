@@ -1,4 +1,3 @@
-import { app } from '@azure/functions';
 import { leerSesion } from './sesion.js';
 
 export class HttpError extends Error {
@@ -46,17 +45,22 @@ export function validarEntero(valor, mensaje) {
   return numero;
 }
 
+/** Rutas registradas con `ruta()`. Las publica la plataforma: portal.js (Vercel) o _azure.js (Azure Functions). */
+export const rutas = [];
+
 /**
- * Registra una ruta /api/{route}.
+ * Registra una ruta /api/{route}. Los parámetros van entre llaves ("cuentas/{idCuenta}") y llegan en `request.params`.
  * - Las peticiones que cambian datos deben traer el header X-Requested-With: arm-web. Un sitio ajeno
  *   no puede mandarlo sin un preflight CORS, que este API no autoriza (protección CSRF junto con SameSite=Strict).
  * - Con `sesion: true` responde 401 si no hay cookie de sesión válida y pasa el usuario al handler.
+ * El handler recibe `request` con `method`, `headers.get()`, `json()` y `params`, y `context` con `warn` y `error`.
+ * Responde { status, jsonBody, cookies, headers }.
  */
 export function ruta(nombre, { methods, route, sesion = true, handler }) {
-  app.http(nombre, {
+  rutas.push({
+    nombre,
     methods,
     route,
-    authLevel: 'anonymous',
     handler: async (request, context) => {
       try {
         if (request.method !== 'GET' && request.headers.get('x-requested-with') !== 'arm-web') {

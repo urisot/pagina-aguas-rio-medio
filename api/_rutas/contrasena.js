@@ -1,6 +1,6 @@
-import { ruta, json, leerJson, validarCorreo } from '../lib/http.js';
-import { llamarWcf } from '../lib/wcf.js';
-import { contrasenaTemporal } from '../lib/sesion.js';
+import { ruta, json, leerJson, validarCorreo } from '../_lib/http.js';
+import { llamarWcf } from '../_lib/wcf.js';
+import { contrasenaTemporal } from '../_lib/sesion.js';
 
 // Igual que la app (ResConPideEmailFragment): CamConEmail guarda SHA1(correo + clave) como contraseña
 // y envía la clave temporal por correo. No hay paso de confirmación en el WCF.

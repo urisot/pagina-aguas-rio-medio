@@ -1,7 +1,7 @@
-import { ruta, json, HttpError } from '../lib/http.js';
-import { llamarWcf } from '../lib/wcf.js';
-import { datosDelUsuario } from '../lib/usuarios.js';
-import * as normalizar from '../lib/normalizar.js';
+import { ruta, json, HttpError } from '../_lib/http.js';
+import { llamarWcf } from '../_lib/wcf.js';
+import { datosDelUsuario } from '../_lib/usuarios.js';
+import * as normalizar from '../_lib/normalizar.js';
 
 // Los reportes del usuario vienen en DatUsrApp (tabla 2 de usp_Qry_DatosUsrApp).
 const reportesDelUsuario = async (idUsuarioApp) => (await datosDelUsuario(idUsuarioApp)).reportes;

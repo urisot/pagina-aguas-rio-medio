@@ -1,1 +1,4 @@
-api
+api/node_modules
+api/host.json
+api/local.settings.json
+api/local.settings.json.template

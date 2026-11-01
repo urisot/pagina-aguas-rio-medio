@@ -1,7 +1,7 @@
-import { ruta, json, error, leerJson, validarCorreo, HttpError } from '../lib/http.js';
-import { cookiesSesion, cookiesCerrarSesion, hashContrasena } from '../lib/sesion.js';
-import { validarConHash } from '../lib/usuarios.js';
-import * as normalizar from '../lib/normalizar.js';
+import { ruta, json, error, leerJson, validarCorreo, HttpError } from '../_lib/http.js';
+import { cookiesSesion, cookiesCerrarSesion, hashContrasena } from '../_lib/sesion.js';
+import { validarConHash } from '../_lib/usuarios.js';
+import * as normalizar from '../_lib/normalizar.js';
 
 ruta('authLogin', {
   methods: ['POST'],

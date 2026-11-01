@@ -1,7 +1,7 @@
-import { ruta, json, leerJson, validarEntero, validarCorreo, HttpError } from '../lib/http.js';
-import { llamarWcf } from '../lib/wcf.js';
-import { cuentaDelUsuario } from '../lib/usuarios.js';
-import { cookie, cifrar } from '../lib/sesion.js';
+import { ruta, json, leerJson, validarEntero, validarCorreo, HttpError } from '../_lib/http.js';
+import { llamarWcf } from '../_lib/wcf.js';
+import { cuentaDelUsuario } from '../_lib/usuarios.js';
+import { cookie, cifrar } from '../_lib/sesion.js';
 
 // Pago con tarjeta por YoLoPago, igual que PagoTarjetaActivity (agregador 3) de la app:
 //   1. GenTok (WCF) devuelve el token de pago (key_pago) y la orden de compra (folio_pago).

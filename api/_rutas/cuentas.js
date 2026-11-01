@@ -1,7 +1,7 @@
-import { ruta, json, leerJson, validarEntero, HttpError } from '../lib/http.js';
-import { llamarWcf, esExito } from '../lib/wcf.js';
-import { recibosDelUsuario, cuentaDelUsuario } from '../lib/usuarios.js';
-import * as normalizar from '../lib/normalizar.js';
+import { ruta, json, leerJson, validarEntero, HttpError } from '../_lib/http.js';
+import { llamarWcf, esExito } from '../_lib/wcf.js';
+import { recibosDelUsuario, cuentaDelUsuario } from '../_lib/usuarios.js';
+import * as normalizar from '../_lib/normalizar.js';
 
 // El id del usuario siempre sale de la cookie de sesión; el navegador solo manda números de cuenta,
 // y cada consulta por cuenta revisa antes que esté vinculada al usuario.

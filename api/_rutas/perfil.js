@@ -1,7 +1,7 @@
-import { ruta, json, leerJson, HttpError } from '../lib/http.js';
-import { llamarWcf, esExito } from '../lib/wcf.js';
-import { hashContrasena, cookiesSesion, descifrar } from '../lib/sesion.js';
-import { validarUsuario, validarConHash, validarContrasenaNueva } from '../lib/usuarios.js';
+import { ruta, json, leerJson, HttpError } from '../_lib/http.js';
+import { llamarWcf, esExito } from '../_lib/wcf.js';
+import { hashContrasena, cookiesSesion, descifrar } from '../_lib/sesion.js';
+import { validarUsuario, validarConHash, validarContrasenaNueva } from '../_lib/usuarios.js';
 
 // Foto de perfil (Base64): el WCF solo la entrega en ValidaUsrAppPruebas, así que se vuelve a validar
 // con el hash cifrado que guarda la sesión. Si la contraseña cambió desde otro lado, no hay foto.

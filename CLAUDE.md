@@ -52,7 +52,7 @@ Stack de tecnología:
 - Tailwind CSS.
 - JavaScript (no TypeScript), salvo que el equipo decida lo contrario.
 - Backend existente en Azure, consumido vía su API REST con `fetch` nativo (sin SDK ni librerías HTTP externas).
-- Hosting propuesto: Azure Static Web Apps (mismo proveedor que el backend) con deploy automático desde GitHub Actions.
+- Hosting actual: Vercel (https://pagina-aguas-rio-medio.vercel.app/), deploy automático al hacer push a `main`; las demás ramas generan previews. El proxy también puede correr en Azure Static Web Apps (workflow en `.github/workflows/`).
 - Analítica: Google Analytics 4 (reemplaza al ID `UA-981770-50`).
 
 
@@ -60,11 +60,14 @@ Backend (Azure):
 
 - Código fuente: `C:\Users\Uriel Soto\source\repos\WCF-ARM-Pagos-Android`.
 - Tecnología: WCF (VB.NET, .NET Framework) con `webHttpBinding` JSON, servicio `ComapaVic_OS.svc`. CORS abierto (`*`).
-- El navegador nunca llama al WCF. Todo pasa por el proxy `api/` (Azure Functions administradas de Static Web Apps, Node 20, modelo v4, `@azure/functions`):
-  - Solo el proxy conoce la llave `pass` y la URL del WCF. Variables: `WCF_BASE_URL` (incluye `/ComapaVic_OS.svc`), `WCF_PASS` y `SESSION_SECRET` (32+ caracteres). En local van en `api/local.settings.json` (ignorado; plantilla `api/local.settings.json.template`); en Azure, en la configuración de entorno de la Static Web App.
+- El navegador nunca llama al WCF. Todo pasa por el proxy `api/`, escrito sin depender de la plataforma:
+  - Rutas en `api/_rutas/*.js` (registrar los archivos nuevos en `api/_rutas/index.js`) y utilerías en `api/_lib/`. Cada ruta se declara con `ruta()` de `api/_lib/http.js`.
+  - Vercel: `api/portal.js` es la única función. `vercel.json` reescribe `/api/<ruta>` a `/api/portal?ruta=<ruta>` y define redirecciones y headers de seguridad. Las carpetas que empiezan con `_` no se publican como funciones.
+  - Azure Functions (Static Web Apps): `api/_azure.js` (`main` de `api/package.json`) registra las mismas rutas con `@azure/functions`; los headers están en `public/staticwebapp.config.json`.
+  - Solo el proxy conoce la llave `pass` y la URL del WCF. Variables: `WCF_BASE_URL` (incluye `/ComapaVic_OS.svc`), `WCF_PASS` y `SESSION_SECRET` (32+ caracteres). En local van en `api/local.settings.json` (ignorado; plantilla `api/local.settings.json.template`); en Vercel, en Project > Settings > Environment Variables; en Azure, en la configuración de entorno de la Static Web App.
   - Sesión sin estado: cookie `arm_sesion` (HttpOnly, Secure, SameSite=Strict, 8 h) firmada con HMAC. El `cIdUsuarioApp` siempre sale de la cookie, nunca del cliente. `arm_nombre` (no HttpOnly) solo sirve para pintar "Mi cuenta" en el header.
   - Antes de consultar una cuenta, recibo o reporte, el proxy revisa que pertenezca al usuario (`LisRecUsrApp` / `DatUsrApp`); si no, responde 404.
-  - Las respuestas se normalizan en `api/src/lib/normalizar.js` y nunca incluyen `key`, `contrasena` ni tarjetas.
+  - Las respuestas se normalizan en `api/_lib/normalizar.js` y nunca incluyen `key`, `contrasena` ni tarjetas.
   - Protección CSRF: los métodos distintos de GET exigen el header `X-Requested-With: arm-web` (lo agrega `src/services/apiClient.js`).
   - Contraseñas: el proxy calcula `SHA1(correo + contraseña)` en mayúsculas, igual que `Util.HashContrasena` de la app.
 - Mapa del proxy (`/api/...` → operación del WCF):

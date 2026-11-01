@@ -17,7 +17,7 @@ const datosIniciales = (perfil) => ({
   codigoPostal: '',
 });
 
-// Mismas reglas que valida el proxy (validarTitular en api/src/functions/pagos.js).
+// Mismas reglas que valida el proxy (validarTitular en api/_rutas/pagos.js).
 function validar(datos) {
   const errores = {};
   if (!datos.nombre.trim()) errores.nombre = 'Escribe el nombre del titular de la tarjeta.';
