@@ -3,6 +3,7 @@ import Alert from './Alert.jsx';
 import AvanceReporte from './AvanceReporte.jsx';
 import useSesion, { siSesionVencida } from './useSesion.js';
 import { obtenerReportes, nombreEstatus, claseEstatus, esFinal } from '../../services/reportesService.js';
+import { site } from '../../data/site.js';
 
 export default function MisReportes() {
   const { perfil, error: errorSesion } = useSesion();
@@ -33,10 +34,21 @@ export default function MisReportes() {
 
   if (reportes.length === 0) {
     return (
-      <div className="card text-center">
-        <span className="icon icon-fill !text-[4.8rem] text-primary-brand/40" aria-hidden="true">assignment</span>
-        <p className="mt-2 font-display text-xl font-bold">No tienes reportes</p>
-        <p className="text-on-surface-variant">Puedes levantar un reporte de fuga o falta de agua desde la app ARM Móvil o por WhatsApp.</p>
+      <div className="card grid items-center gap-8 sm:grid-cols-[1fr_auto]">
+        <div className="text-center sm:text-left">
+          <span className="icon icon-fill !text-[4.8rem] text-primary-brand/40" aria-hidden="true">assignment</span>
+          <p className="mt-2 font-display text-xl font-bold">No tienes reportes</p>
+          <p className="text-on-surface-variant">Levanta un reporte de fuga o falta de agua desde la app ARM Móvil, con tu ubicación y una foto, y sigue su avance hasta que se cierre. También puedes reportar por WhatsApp.</p>
+          <div className="mt-4 flex flex-wrap justify-center gap-3 sm:justify-start">
+            <a href={site.appAndroidHref} target="_blank" rel="noopener noreferrer" className="btn btn-primary" aria-label="Descargar ARM Móvil en Google Play (se abre en una pestaña nueva)">
+              <span className="icon !text-[2rem]" aria-hidden="true">shop</span> Descargar la app
+            </a>
+            <a href={site.whatsappHref} target="_blank" rel="noopener noreferrer" className="btn btn-ghost" aria-label="Reportar por WhatsApp (se abre en una pestaña nueva)">
+              <span className="icon !text-[2rem]" aria-hidden="true">chat</span> WhatsApp
+            </a>
+          </div>
+        </div>
+        <img src="/img/app/seguimiento-reporte.jpg" alt="Seguimiento de un reporte en la app ARM Móvil" width="610" height="765" loading="lazy" className="mx-auto w-[22rem] rounded-[2rem] border-[0.5rem] border-slate-900 shadow-modal" />
       </div>
     );
   }

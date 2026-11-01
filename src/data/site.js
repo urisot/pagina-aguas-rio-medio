@@ -10,6 +10,8 @@ export const site = {
   emergencyPhone: '+52 229 453 5838',
   emergencyHref: 'tel:+522294535838',
   whatsappHref: 'https://wa.me/522294535838',
+  // Ficha de ARM Móvil (com.fa.armmovil) en Google Play.
+  appAndroidHref: 'https://play.google.com/store/apps/details?id=com.fa.armmovil&hl=es_MX',
   email: 'aguasderiomedio@gmail.com',
   address: 'Río San Isidro No. 6 esq. Río Medellín, Fracc. Bosques de Río Medio, Veracruz',
   schedule: 'Lunes a viernes de 9:00 a 17:00 h',
