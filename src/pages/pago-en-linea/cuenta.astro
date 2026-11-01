@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import PortalNav from '../../components/PortalNav.astro';
+import DetalleCuenta from '../../components/react/DetalleCuenta.jsx';
+---
+
+<BaseLayout title="Detalle de la cuenta" description="Datos de la cuenta, conceptos del recibo e historial de consumos y pagos." noindex>
+  <PageHero eyebrow="Portal ciudadano · Mis recibos" title="Detalle de" highlight="tu cuenta" />
+  <PortalNav />
+  <section class="container-site py-12">
+    <DetalleCuenta client:only="react" />
+  </section>
+</BaseLayout>

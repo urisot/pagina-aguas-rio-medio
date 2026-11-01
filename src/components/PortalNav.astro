@@ -1,0 +1,34 @@
+---
+// Pestañas del portal con sesión, equivalentes al menú inferior de la app.
+const tabs = [
+  { label: 'Mis recibos', href: '/pago-en-linea/', icon: 'receipt_long' },
+  { label: 'Mis reportes', href: '/mis-reportes/', icon: 'assignment' },
+  { label: 'Mi perfil', href: '/mi-perfil/', icon: 'person' },
+];
+const path = Astro.url.pathname;
+---
+
+<nav aria-label="Mi cuenta" class="no-print container-site -mt-6 relative z-10">
+  <ul class="flex gap-2 overflow-x-auto rounded-2xl border border-slate-100 bg-white p-2 shadow-card">
+    {
+      tabs.map((tab) => {
+        const activa = path.startsWith(tab.href);
+        return (
+          <li class="flex-1">
+            <a
+              href={tab.href}
+              aria-current={activa ? 'page' : undefined}
+              class:list={[
+                'flex items-center justify-center gap-2 whitespace-nowrap rounded-xl px-4 py-3 font-display text-sm font-bold transition',
+                activa ? 'bg-primary-brand text-white' : 'text-on-surface-variant hover:bg-surface-container hover:text-primary',
+              ]}
+            >
+              <span class="icon !text-[2rem]" aria-hidden="true">{tab.icon}</span>
+              {tab.label}
+            </a>
+          </li>
+        );
+      })
+    }
+  </ul>
+</nav>

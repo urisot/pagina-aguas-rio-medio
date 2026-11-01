@@ -1,11 +1,15 @@
 {
+  "platform": {
+    "apiRuntime": "node:20"
+  },
   "routes": [
     { "route": "/category/noticias", "redirect": "/noticias/", "statusCode": 301 },
-    { "route": "/category/noticias/*", "redirect": "/noticias/", "statusCode": 301 }
+    { "route": "/category/noticias/*", "redirect": "/noticias/", "statusCode": 301 },
+    { "route": "/api/*", "headers": { "Cache-Control": "no-store" } }
   ],
   "navigationFallback": {
     "rewrite": "/404.html",
-    "exclude": ["/_astro/*", "/*.{svg,png,jpg,webp,ico,css,js,xml,txt}"]
+    "exclude": ["/_astro/*", "/api/*", "/*.{svg,png,jpg,webp,ico,css,js,xml,txt}"]
   },
   "responseOverrides": {
     "404": { "rewrite": "/404.html" }
@@ -13,6 +17,7 @@
   "globalHeaders": {
     "X-Content-Type-Options": "nosniff",
     "Referrer-Policy": "strict-origin-when-cross-origin",
-    "X-Frame-Options": "DENY"
+    "X-Frame-Options": "DENY",
+    "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.azurewebsites.net; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
   }
 }

@@ -35,7 +35,7 @@ const canales = [
           Operador oficial · Lomas de Río Medio 4 y Bosques de Río Medio
         </p>
         <h1 class="animate-rise font-display text-4xl font-extrabold leading-[1.1] text-on-surface [animation-delay:80ms] sm:text-5xl lg:text-[5.2rem]">
-          Servicios de agua potable y saneamiento <span class="text-primary-brand">para tu bienestar</span>
+          Servicios de agua potable y saneamiento 
         </h1>
         <p class="max-w-2xl animate-rise text-lg text-on-surface-variant [animation-delay:160ms]">
           Gestiona tu cuenta con total transparencia, consulta tu saldo en segundos y mantente informado del estado del suministro en tu comunidad en Veracruz.
@@ -69,7 +69,7 @@ const canales = [
             <div class="flex items-start justify-between gap-3">
               <div>
                 <p class="font-display text-lg font-extrabold">Consulta tu saldo</p>
-                <p class="text-sm text-on-primary-container">Sin crear cuenta ni hacer filas.</p>
+                <p class="text-sm text-on-primary-container">Con la misma cuenta de la app, sin hacer filas.</p>
               </div>
               <span class="icon !text-[2.8rem]" aria-hidden="true">credit_card</span>
             </div>
@@ -116,12 +116,11 @@ const canales = [
             </h2>
           </div>
         </div>
-        <p class="text-on-surface-variant">Ingresa tu número de cuenta o contrato para visualizar tu saldo actual y el detalle de tu recibo.</p>
-        <form action="/pago-en-linea/" method="get" class="flex flex-col gap-3 sm:flex-row">
-          <label for="home-cuenta" class="sr-only">Número de cuenta o contrato</label>
-          <input id="home-cuenta" name="cuenta" type="text" inputmode="numeric" pattern="[0-9]+" required placeholder="Número de cuenta o contrato (ej. 104829)" class="field flex-grow" autocomplete="off" />
-          <button type="submit" class="btn btn-primary">Consultar saldo <span class="icon !text-[1.8rem]" aria-hidden="true">arrow_forward</span></button>
-        </form>
+        <p class="text-on-surface-variant">Inicia sesión con tu cuenta de la app ARM Móvil para ver tu saldo, el detalle de tu recibo, tu historial de consumo y tus reportes. ¿Aún no tienes cuenta? Regístrate en un par de minutos.</p>
+        <div class="flex flex-col gap-3 sm:flex-row">
+          <a href="/pago-en-linea/" class="btn btn-primary">Ver mis recibos <span class="icon !text-[1.8rem]" aria-hidden="true">arrow_forward</span></a>
+          <a href="/registro/" class="btn btn-ghost">Crear mi cuenta</a>
+        </div>
         <div class="flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-4 text-sm text-on-surface-variant">
           <p class="flex items-center gap-2"><span class="icon !text-[2rem]" aria-hidden="true">help_outline</span>¿Dónde ubicar tu contrato? Revisa la parte superior derecha de tu recibo.</p>
           <p class="flex gap-4 font-semibold text-primary-brand"><a href="/contacto/" class="hover:underline">Aclaraciones</a><a href={site.whatsappHref} target="_blank" rel="noopener noreferrer" class="hover:underline">Ayuda por WhatsApp</a></p>

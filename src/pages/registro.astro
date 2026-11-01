@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import RegistroForm from '../components/react/RegistroForm.jsx';
+---
+
+<BaseLayout title="Crea tu cuenta" description="Regístrate para vincular tus recibos de agua y consultar tu saldo e historial. Aguas de Río Medio." noindex>
+  <PageHero eyebrow="Portal ciudadano" title="Crea tu" highlight="cuenta" lead="Con tu cuenta podrás vincular tus recibos, revisar tu consumo y dar seguimiento a tus reportes, aquí y en la app ARM Móvil." />
+  <section class="container-site py-12">
+    <RegistroForm client:only="react" />
+  </section>
+</BaseLayout>

@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import PortalNav from '../../components/PortalNav.astro';
+import DetalleReporte from '../../components/react/DetalleReporte.jsx';
+---
+
+<BaseLayout title="Detalle del reporte" description="Estatus y seguimiento de tu reporte." noindex>
+  <PageHero eyebrow="Portal ciudadano · Mis reportes" title="Seguimiento de" highlight="tu reporte" />
+  <PortalNav />
+  <section class="container-site py-12">
+    <DetalleReporte client:only="react" />
+  </section>
+</BaseLayout>
