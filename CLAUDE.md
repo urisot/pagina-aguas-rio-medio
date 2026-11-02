@@ -4,6 +4,37 @@ Rediseño del sitio web de Aguas de Río Medio (https://www.aguasderiomedio.com/
 
 El sitio actual está hecho en WordPress 7 (PHP 8.2, Nginx) con un tema hijo `bootstrap-basic4-child`, Bootstrap 4, jQuery, Font Awesome 5, Contact Form 7 y Google Analytics Universal (UA, ya descontinuado). Este proyecto lo reemplaza por un sitio moderno, rápido y responsive que además permite el pago del servicio en línea consumiendo el backend existente.
 
+Estado (2026-11-01): en producción en Vercel (https://pagina-aguas-rio-medio.vercel.app), con la parte pública y el portal de usuario (ingresar, registro, restablecer contraseña, mis recibos, detalle de cuenta, mis reportes y mi perfil). El pago con YoLoPago está construido pero bloqueado. El dominio `aguasderiomedio.com` sigue en el WordPress anterior.
+
+
+Proyectos relacionados:
+
+Aguas de Río Medio tiene tres proyectos que comparten el mismo backend. Cada uno tiene su propio CLAUDE.md y README.
+
+| Proyecto | Ruta local | Repositorio |
+| --- | --- | --- |
+| Sitio web y portal (este) | `C:\Users\Uriel Soto\OneDrive\Desktop\master-claude-code\pagina-aguas-rio-medio` | `urisot/pagina-aguas-rio-medio` |
+| App Android ARM Móvil (Java) | `C:\Users\Uriel Soto\AndroidStudioProjects\ARMMOVIL2` | `urisot/ARMMOVIL2` |
+| Backend WCF (VB.NET) | `C:\Users\Uriel Soto\source\repos\WCF-ARM-Pagos-Android` | `jsgarcial83/WCF-ARM-Pagos-Android` |
+
+- El portal replica los flujos de la app: cuando haya duda sobre cómo usar una operación del WCF, revisar cómo la llama la app (`Services/IServicesWCF.java`, `Services/PostObjects/Send*Body.java` y las pantallas en `ui/Activities/`).
+- La app enlaza a `/elimina-tu-cuenta/` desde Google Play y lee noticias de la API de WordPress del sitio anterior (`/wp-json/wp/v2/posts`). Al cambiar el dominio a este sitio, avisar: la app se quedaría sin noticias.
+- No modificar la app ni el backend desde este proyecto.
+
+
+Comandos:
+
+```bash
+npm install                 # dependencias del sitio (y `npm install` dentro de api/ para el proxy)
+npm run dev                 # Astro en http://localhost:4321 (sin proxy: el portal no funciona)
+npm run dev:portal          # Astro + proxy en http://localhost:4280 (SWA CLI; requiere Azure Functions Core Tools)
+npm run build               # sitio estático en dist/
+npm run preview
+```
+
+- No hay pruebas automatizadas; validar con `npm run build` y probando en el navegador.
+- Deploy: push a `main` publica en Vercel. Los previews de otras ramas están detrás de Vercel Authentication (curl recibe 302); revisarlos en el navegador con sesión iniciada.
+
 
 Rol del agente:
 
@@ -79,7 +110,7 @@ Backend (Azure):
 | `POST contrasena/restablecer` | `CamConEmail` | El WCF guarda y envía por correo una contraseña temporal; responde igual exista o no el correo. |
 | `GET/POST cuentas`, `GET/DELETE cuentas/{id}` | `LisRecUsrApp`, `ValUsrPad` + `InsCuentasUsrApp`, `GetDatPad`, `DelCuentasUsrApp` | Vincular pide cuenta y titular, como la app. |
 | `GET cuentas/{id}/recibos`, `cuentas/{id}/pagos`, `cuentas/{id}/recibos/{idRecibo}/conceptos` | `LisHisRec`, `LisHisPag`, `DetUsrRec` | |
-| `GET reportes`, `reportes/{folio}` | `DatUsrApp` (reportes), `DetRpt` + `LisHisRpt` | Sin `LisHisRpt` en el servidor, la línea de tiempo usa los pasos del flujo. |
+| `GET reportes`, `reportes/{folio}` | `DatUsrApp` (reportes), `DetRpt` + `LisHisRpt` | `DetRpt` y `LisHisRpt` existen en el backend desde el 2026-10-28. Si `LisHisRpt` falla (servidor sin publicar o sin el script SQL), la línea de tiempo usa los pasos del flujo. |
 | `POST perfil/contrasena` | `ValidaUsrAppPruebas` + `ActConUsrApp` | |
 | `GET/POST pagos/yolopago` | `GenTok` (la llave va en `c1`) | GET dice si está habilitado. POST valida cuenta, monto (`requerido`/`total`, calculado con `DatUsrApp`) y titular. Bloqueado con `YOLOPAGO_HABILITADO`; ver "Pago con YoLoPago". |
 
@@ -104,7 +135,7 @@ Backend (Azure):
 | Confirmar pago / estatus | POST | `ActualizarCargoYP` | `pass` | BLOQUEADO: aplica el pago con `success` enviado por el cliente |
 | Comprobante | — | Se genera en el cliente (imprimir/PDF) | — | `GenPdfRecibo` exige `pass` |
 
-- Probado (backend `pagosarm.azurewebsites.net`): `getDatosPadron` devuelve una fila por recibo pendiente (la más antigua primero) con `total` de la cuenta repetido; cuenta inexistente devuelve `[]`. Por HTTPS las operaciones devuelven 404 (solo HTTP funciona): el sitio en HTTPS sería bloqueado por contenido mixto.
+- Probado (backend `pagosarm.azurewebsites.net`): `getDatosPadron` devuelve una fila por recibo pendiente (la más antigua primero) con `total` de la cuenta repetido; cuenta inexistente devuelve `[]`. Por HTTPS las operaciones devuelven 404 (solo HTTP funciona): el sitio en HTTPS sería bloqueado por contenido mixto. El 2026-10-27 el `Web.config` del WCF agregó un endpoint HTTPS (`RestBindingHttps`); pruebas (`pruebasarm`) ya responde por HTTPS, pero hay que confirmar que producción (`pagosarm`) esté publicada con ese cambio antes de dejar de usar HTTP en `WCF_BASE_URL`.
 - Cambios requeridos en el backend para habilitar el pago web (no se modifica desde este proyecto):
   - Endpoint de checkout del lado servidor sin `pass` en el cliente (o función intermedia con la llave en secreto de Azure).
   - Confirmación del pago por callback/webhook de la pasarela (YoloPago), no por el `success` del cliente.
@@ -168,25 +199,30 @@ Preferencias de código:
 - Si el agente duda, revisar las especificaciones del proyecto y, si no, preguntar al usuario.
 
 
-Estructura de archivos (propuesta):
+Estructura de archivos:
 
 - `design/` (plantillas HTML del diseño)
-- `public/` (favicon, imágenes estáticas, `robots.txt`)
-- `src/components/` (componentes `.astro`; `src/components/react/` para las islas)
+- `public/` (favicon, logos, `img/`, `robots.txt`, `staticwebapp.config.json` para Azure)
+- `src/components/` (componentes `.astro`: `Header`, `Footer`, `PortalNav`, `FloatingActions`, `NewsCard`, etc.; `src/components/react/` para las islas: formularios de sesión, `MisRecibos`, `DetalleCuenta`, `MisReportes`, `DetalleReporte`, `MiPerfil`, `PagoYoLoPago`, `TarifaSimulator`, `FaqSearch`, `ContactForm`, `DeleteAccountForm`, y piezas comunes `Alert`, `ConfirmDialog`, `Field`, `useSesion`)
 - `src/layouts/` (`BaseLayout.astro` con header, footer, SEO y analítica)
-- `src/pages/` (rutas de Astro; mantener los slugs actuales: `/tarifas/`, `/preguntas-frecuentes/`, `/contacto/`, `/medidas-sanitarias/`, `/politica-de-privacidad/`, `/elimina-tu-cuenta/`, `/category/noticias/` → redirección a `/noticias/`)
-- `src/content/` (Content Collections, mientras se decide el origen del contenido)
-- `src/services/` (acceso al backend)
-- `src/styles/` (estilos globales y configuración base de Tailwind)
-- `.github/workflows/` (deploy a Azure Static Web Apps)
+- `src/pages/` (rutas de Astro; mantener los slugs actuales: `/tarifas/`, `/preguntas-frecuentes/`, `/contacto/`, `/medidas-sanitarias/`, `/politica-de-privacidad/`, `/elimina-tu-cuenta/`, `/category/noticias/` → redirección a `/noticias/`). Portal: `/ingresar/`, `/registro/`, `/restablecer-contrasena/`, `/pago-en-linea/` (mis recibos) y `/pago-en-linea/cuenta/`, `/mis-reportes/` y `/mis-reportes/detalle/`, `/mi-perfil/`. `sitemap.xml.js` genera el sitemap.
+- `src/content/` (Content Collections `noticias` y `sabias-que`, esquema en `src/content.config.js`) y `src/data/` (`site.js`, `tarifas.js`, `faqs.js`)
+- `src/services/` (acceso al backend: `apiClient.js`, `authService.js`, `cuentasService.js`, `reportesService.js`, `pagosService.js`, `contactService.js`)
+- `src/styles/` (`global.css` con la configuración base de Tailwind 4)
+- `api/` (proxy hacia el WCF; ver "Backend (Azure)")
+- `vercel.json` (rewrites del proxy, redirecciones y headers de seguridad)
+- `.github/workflows/` (deploy alterno a Azure Static Web Apps y workflows de Claude)
 - `.env.template`
 
 
 Pendientes / notas:
 
-- Ruta local del código del backend y su tecnología. -- ya suministrado
+- Ruta local del código del backend y su tecnología. -- hecho (ver "Proyectos relacionados")
+- Mapa de endpoints del portal. -- hecho (ver "Mapa del proxy")
+- Hosting. -- Vercel (desde 2026-11-01); Azure Static Web Apps queda como alternativa.
 - Origen del contenido (noticias, avisos, tarifas). *pendiente
-- Mapa de endpoints de pago en línea (analizar el backend). -- puedes proceder con ello con los datos que ya te pase
-- Pasarela de pago que usa el backend y su flujo de confirmación. *pendiente
-- Confirmar hosting (Azure Static Web Apps) y dominio. *pendiente
+- Pasarela de pago web: YoLoPago debe explicar el retorno del resultado y el `hmac`; falta `POST pagos/yolopago/confirmar`. *pendiente
+- Dominio: apuntar `aguasderiomedio.com` a este sitio (avisar antes por las noticias de la app). *pendiente
+- Pasar `WCF_BASE_URL` de pruebas (`pruebasarm`) a producción cuando el backend de producción tenga los cambios. *pendiente
+- Endpoint de backend para contacto y baja de cuenta (`PUBLIC_CONTACT_ENDPOINT`). *pendiente
 - Inventario completo de URLs del sitio actual para las redirecciones 301. *pendiente
